@@ -12,11 +12,16 @@ urlpatterns = patterns('',
     # USERS
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     (r'^user/login/$', 'overmind.users.views.login'),
-    (r'^user/$', 'overmind.users.views.create_user'),
+    (r'^user/$', 'overmind.users.views.createUser'),
 
     # FILES
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    (r'^upload/base64/$', 'overmind.files.views.upload_base64_file'),
+    (r'^upload/base64/$', 'overmind.files.views.uploadBase64File'),
+
+
+    # USER FILES
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^user/files/$', 'overmind.files.views.getUserFiles'),
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

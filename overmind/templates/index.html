@@ -14,55 +14,19 @@
     </head>
 
     <body ng-class="{'image-panel-active': overmindState.showImagePanel}">
-        <!--[if lt IE 7]>
+        <!--[if lt IE 10]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- header -->
-        <div class="row">
+        <header class="row">
             <div class="large-12 columns">
                 <h2>Overmind</h2>
             </div>
-        </div>
+        </header>
 
-        <!-- user -->
-        <div class="row">
-            <div class="large-6 columns">
-                <!-- directive: create user form -->
-                <div create-user-form></div>
-            </div>
-
-            <div class="large-6 columns">
-                <!-- directive: login form -->
-                <div login-form></div>
-            </div>
-
-        </div>
-
-        <!-- Item Form -->
-        <div class="item-form" ng-controller="ItemFormController">
-
-            <div class="row">
-                <div class="large-12 columns">
-                    <!-- directive: item form -->
-                    <div item-form></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="columns large-12">
-                    <button class="secondary" ng-click="showImagePanel()">Insert Screenshot</button>
-                    <button class="alert">Save</button>
-                </div>
-            </div>
-
-            <!-- image panel -->
-            <div class="image-panel" ng-show="state.showImagePanel">
-                <div paste-capture></div>
-                <div image-editor></div>
-            </div>
-        </div>
-
+        <!-- Angular View -->
+        <div id="angular-container" ng-view>
 
         <!-- javascript -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

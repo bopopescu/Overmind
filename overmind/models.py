@@ -39,6 +39,7 @@ class Sites(ndb.Model):
     popularity       = ndb.IntegerProperty()
 
     date_added       = ndb.DateTimeProperty(auto_now=False, auto_now_add=True)
+    date_modified    = ndb.DateTimeProperty(auto_now=True, auto_now_add=True)
 
 
 # Files
@@ -51,12 +52,16 @@ class Files(ndb.Model):
     meta             = ndb.TextProperty(required=False)
 
     date_added       = ndb.DateTimeProperty(auto_now=False, auto_now_add=True)
+    date_modified    = ndb.DateTimeProperty(auto_now=True, auto_now_add=True)
 
 
 # Files <-> Users LINK - Users have Files
 class UserFiles(ndb.Model):
     user             = ndb.KeyProperty(kind=Users)
     user_file        = ndb.KeyProperty(kind=Files)
+
+    date_added       = ndb.DateTimeProperty(auto_now=False, auto_now_add=True)
+    date_modified    = ndb.DateTimeProperty(auto_now=True, auto_now_add=True)
 
 
 # Site <-> User LINK - Users have Sites
