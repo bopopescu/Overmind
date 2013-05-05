@@ -8,13 +8,21 @@ urlpatterns = patterns('',
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Overmind REST API
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # users
+
+    # USERS
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     (r'^user/login/$', 'overmind.users.views.login'),
     (r'^user/$', 'overmind.users.views.create_user'),
 
+    # FILES
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^upload/base64/$', 'overmind.files.views.upload_base64_file'),
 
-    # upload
-    (r'^upload/$', 'overmind.views.upload'),
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # admin
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^key/$', 'overmind.management.views.setAPIKey'),
 
     # catch all
     #(r'^.*/$', 'overmind.views.index'),

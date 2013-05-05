@@ -20,45 +20,48 @@
 
         <!-- header -->
         <div class="row">
-            <div class="large-16 columns">
+            <div class="large-12 columns">
                 <h2>Overmind</h2>
             </div>
         </div>
 
-
+        <!-- user -->
         <div class="row">
-            <div class="large-4 columns">
-
+            <div class="large-6 columns">
                 <!-- directive: create user form -->
                 <div create-user-form></div>
+            </div>
 
+            <div class="large-6 columns">
                 <!-- directive: login form -->
                 <div login-form></div>
-
             </div>
 
         </div>
 
-        <!-- insert item -->
-        <div class="row">
-            <div class="large-8 columns">
+        <!-- Item Form -->
+        <div class="item-form" ng-controller="ItemFormController">
 
-                <!-- directive: item form -->
-                <div item-form></div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <!-- directive: item form -->
+                    <div item-form></div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="columns large-12">
+                    <button class="secondary" ng-click="showImagePanel()">Insert Screenshot</button>
+                    <button class="alert">Save</button>
+                </div>
+            </div>
+
+            <!-- image panel -->
+            <div class="image-panel" ng-show="state.showImagePanel">
+                <div paste-capture></div>
+                <div image-editor></div>
             </div>
         </div>
-
-
-        <!-- image panel -->
-        <div class="image-panel" ng-show="overmindState.showImagePanel">
-            <div paste-capture></div>
-            <div image-editor></div>
-        </div>
-
-
-
-
 
 
         <!-- javascript -->

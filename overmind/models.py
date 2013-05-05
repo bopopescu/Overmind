@@ -1,18 +1,19 @@
 from google.appengine.ext import ndb
 
 
-# API KEYS
+# Api Keys
 class ApiKeys(ndb.Model):
     name             = ndb.StringProperty()
     value            = ndb.StringProperty()
 
 
-# USERS
+# Users
 class Users(ndb.Model):
-    username         = ndb.StringProperty(required=False)
+    username         = ndb.StringProperty()
     password         = ndb.StringProperty()
     email            = ndb.StringProperty()
     secret_key       = ndb.StringProperty()
+
     reset_code       = ndb.StringProperty(required=False)
     update_timestamp = ndb.StringProperty(required=False)
     admin            = ndb.BooleanProperty(required=False, default=False)
@@ -21,7 +22,7 @@ class Users(ndb.Model):
     date_modified    = ndb.DateTimeProperty(auto_now=True, auto_now_add=True)
 
 
-# TAGS
+# Tags
 class Tags(ndb.Model):
     user             = ndb.KeyProperty(kind=Users)
 
@@ -40,17 +41,25 @@ class Sites(ndb.Model):
     date_added       = ndb.DateTimeProperty(auto_now=False, auto_now_add=True)
 
 
-# FILES
+# Files
 class Files(ndb.Model):
-    title            = ndb.StringProperty()
-    caption          = ndb.StringProperty()
-    meta             = ndb.TextProperty()
     file_location    = ndb.StringProperty()
     file_type        = ndb.StringProperty()
+
+    title            = ndb.StringProperty(required=False)
+    caption          = ndb.StringProperty(required=False)
+    meta             = ndb.TextProperty(required=False)
 
     date_added       = ndb.DateTimeProperty(auto_now=False, auto_now_add=True)
 
 
+# Files <-> Users LINK - Users have Files
+class UserFiles(ndb.Model):
+    user             = ndb.KeyProperty(kind=Users)
+    user_file        = ndb.KeyProperty(kind=Files)
+
+
+# Site <-> User LINK - Users have Sites
 class UserItems(ndb.Model):
     site             = ndb.KeyProperty(kind=Sites)
     user             = ndb.KeyProperty(kind=Users)
@@ -64,14 +73,13 @@ class UserItems(ndb.Model):
     date_modified    = ndb.DateTimeProperty(auto_now=True, auto_now_add=True)
 
 
-# UserItems <-> Tags LINK
+# UserItems <-> Tags LINK - User Items have Tags
 class ItemTags(ndb.Model):
     user_item        = ndb.KeyProperty(kind=UserItems)
     tag              = ndb.KeyProperty(kind=Tags)
 
 
-# UserItems <-> Files LINK
+# UserItems <-> Files LINK - User Items have Files
 class ItemFiles(ndb.Model):
     user_item        = ndb.KeyProperty(kind=UserItems)
     user_file        = ndb.KeyProperty(kind=Files)
-    user             = ndb.KeyProperty(kind=Users)
