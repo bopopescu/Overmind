@@ -1,16 +1,16 @@
 from django.conf.urls.defaults import patterns
 
-
 urlpatterns = patterns('',
 
     # index
     (r'^$', 'overmind.views.index'),
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # gamedex rest api
+    # Overmind REST API
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # user
-    #(r'^user/login/$',                  'overmind.user.login'),
+    # users
+    (r'^user/login/$', 'overmind.users.views.login'),
+    (r'^user/$', 'overmind.users.views.create_user'),
 
 
     # upload
