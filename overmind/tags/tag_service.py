@@ -8,7 +8,7 @@ import uuid
 from django.template.defaultfilters import slugify
 
 # models
-from models import Users, Tags
+from models import UserTags
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,13 +26,13 @@ class TagService(object):
         tagSlug = slugify(tag)
 
         # get or create tag
-        tag = Tags.query(Tags.user == user.key, Tags.slug == tagSlug).get()
+        userTag = UserTags.query(UserTags.user == user.key, UserTags.slug == tagSlug).get()
 
         # create site
-        if tag is None:
+        if userTag is None:
 
             # create tag
-            tag = Tags(title=tag, slug=tagSlug, user=user.key)
-            tag.put()
+            userTag = UserTags(title=tag, slug=tagSlug, user=user.key)
+            userTag.put()
 
-        return tag
+        return userTag

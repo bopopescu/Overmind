@@ -14,6 +14,10 @@ urlpatterns = patterns('',
     (r'^user/login/$', 'overmind.users.views.login'),
     (r'^user/$', 'overmind.users.views.createUser'),
 
+    # USER ITEMS
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^user_item/create/$', 'overmind.items.views.addUserItem'),
+
     # FILES
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     (r'^upload/base64/$', 'overmind.files.views.uploadBase64File'),

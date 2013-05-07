@@ -23,7 +23,7 @@ class Users(ndb.Model):
 
 
 # Tags
-class Tags(ndb.Model):
+class UserTags(ndb.Model):
     user             = ndb.KeyProperty(kind=Users)
 
     title            = ndb.StringProperty()
@@ -81,7 +81,7 @@ class UserItems(ndb.Model):
 # UserItems <-> Tags LINK - User Items have Tags
 class ItemTags(ndb.Model):
     user_item        = ndb.KeyProperty(kind=UserItems)
-    tag              = ndb.KeyProperty(kind=Tags)
+    user_tag         = ndb.KeyProperty(kind=UserTags)
 
 
 # UserItems <-> Files LINK - User Items have Files
