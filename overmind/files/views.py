@@ -23,6 +23,7 @@ from models import Users
 
 # GET USER FILES - fetch all user files
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@require_http_methods(['POST'])
 def getUserFiles(request):
 
     if 'secret_key' in request.POST:
@@ -47,6 +48,7 @@ def getUserFiles(request):
 
 # UPLOAD BASE 64 FILE - uploads base64 encoded file to s3
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@require_http_methods(['POST'])
 def uploadBase64File(request):
 
     if 'secret_key' in request.POST and 'file' in request.POST:
