@@ -87,4 +87,4 @@ class ItemTags(ndb.Model):
 # UserItems <-> Files LINK - User Items have Files
 class ItemFiles(ndb.Model):
     user_item        = ndb.KeyProperty(kind=UserItems)
-    user_file        = ndb.KeyProperty(kind=UserFiles)
+    user_file        = ndb.KeyProperty(kind=Files)

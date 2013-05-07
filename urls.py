@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     # USER ITEMS
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^user_item/$', 'overmind.items.views.getUserItems'),
     (r'^user_item/create/$', 'overmind.items.views.addUserItem'),
 
     # FILES

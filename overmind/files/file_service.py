@@ -76,7 +76,7 @@ class FileService(object):
         userFile = UserFiles(user=user.key, user_file=fileKey)
         userFileKey = userFile.put()
 
-        return userFileKey
+        return fileKey
 
     # Add File
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

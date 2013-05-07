@@ -19,6 +19,31 @@ from models import Users
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+# getUserItems -
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@require_http_methods(['POST'])
+def getUserItems(request):
+
+    if 'secret_key' in request.POST:
+
+        # get parameters
+        secretKey = request.POST.get('secret_key')
+
+        # get user
+        user = Users.query(Users.secret_key == secretKey).get()
+
+        if user:
+
+            # get user items
+            userItems = ItemService.getUserItems(user)
+
+            return HttpResponse(json.dumps({'user_items': userItems}), mimetype='application/json', status='200')
+        else:
+            return HttpResponse(json.dumps({'status': 'invalid_login'}), mimetype='application/json', status='403')
+    else:
+        return HttpResponse(json.dumps({'status': 'missing_param'}), mimetype='application/json', status='400')
+
+
 # addUserItem -
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 @require_http_methods(['POST'])
@@ -43,7 +68,7 @@ def addUserItem(request):
             # create user item
             userItem = ItemService.createUserItem(user, siteURL, title, searchTags, note, fileIDs, tags)
 
-            return HttpResponse(json.dumps({'something': 'hi'}), mimetype='application/json', status='200')
+            return HttpResponse(json.dumps({'status': 'success'}), mimetype='application/json', status='200')
         else:
             return HttpResponse(json.dumps({'status': 'invalid_login'}), mimetype='application/json', status='403')
     else:
