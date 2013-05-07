@@ -24,7 +24,7 @@ from models import Users
 @require_http_methods(['POST'])
 def addUserItem(request):
 
-    if all(k in request.POST for k in ('secret_key', 'site_url', 'title', 'search_tags', 'note', 'file_ids', 'tag_ids')):
+    if all(k in request.POST for k in ('secret_key', 'site_url', 'title', 'search_tags', 'note')):
 
         # get parameters
         secretKey = request.POST.get('secret_key')
