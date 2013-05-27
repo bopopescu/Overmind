@@ -11,23 +11,23 @@ urlpatterns = patterns('',
 
     # USERS
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    (r'^user/login/$', 'overmind.users.views.login'),
-    (r'^user/$', 'overmind.users.views.createUser'),
+    (r'^api/user/login/$', 'overmind.users.views.login'),
+    (r'^api/user/$', 'overmind.users.views.createUser'),
 
     # USER ITEMS
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    (r'^user_item/$', 'overmind.items.views.getUserItems'),
-    (r'^user_item/create/$', 'overmind.items.views.addUserItem'),
-
-    # FILES
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    (r'^upload/base64/$', 'overmind.files.views.uploadBase64File'),
-
+    (r'^api/user/items/$', 'overmind.items.views.getUserItems'),
+    (r'^api/user/item/create/$', 'overmind.items.views.createUserItem'),
+    (r'^api/user/item/(?P<itemID>[\w\d-]+)/$', 'overmind.items.views.getUserItem'),
+    (r'^api/user/item/(?P<itemID>[\w\d-]+)/update/$', 'overmind.items.views.updateUserItem'),
 
     # USER FILES
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    (r'^user/files/$', 'overmind.files.views.getUserFiles'),
+    (r'^api/user/files/$', 'overmind.files.views.getUserFiles'),
 
+    # FILES
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^api/files/upload/base64/$', 'overmind.files.views.uploadBase64File'),
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # admin

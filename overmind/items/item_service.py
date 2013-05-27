@@ -21,67 +21,120 @@ from models import Sites, UserItems, ItemTags, ItemFiles
 
 class ItemService(object):
 
-    # getUserItems
+    # getUserItem - GET
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
-    def getUserItems(user):
+    def getUserItem(itemID):
 
-        userItems = UserItems.query(UserItems.user == user.key).fetch()
+        # get item by key
+        itemKey = ndb.Key(urlsafe=itemID)
+        userItem = itemKey.get()
 
-        if userItems:
+        # get site
+        site = userItem.site.get()
 
-            userItemsList = []
+        # get item tags
+        itemTags = ItemTags.query(ItemTags.user_item == userItem.key)
+        itemTagsList = []
+        for itemTag in itemTags:
 
-            # construct python dictionary
-            for userItem in userItems:
+            userTag = itemTag.user_tag.get()
+            itemTagsList.append({
+                'id': userTag.key.urlsafe(),
+                'title': userTag.title,
+                'slug': userTag.slug
+            })
 
-                # get site
-                site = userItem.site.get()
+        # get item files
+        itemFiles = ItemFiles.query(ItemFiles.user_item == userItem.key)
+        itemFilesList = []
+        for itemFile in itemFiles:
 
-                # get item tags
-                itemTags = ItemTags.query(ItemTags.user_item == userItem.key)
-                itemTagsList = []
-                for itemTag in itemTags:
+            userFile = itemFile.user_file.get()
+            itemFilesList.append({
+                'id': userFile.key.urlsafe(),
+                'file_location': userFile.file_location,
+                'file_type': userFile.file_type,
+                'title': userFile.title,
+                'caption': userFile.caption
+            })
 
-                    userTag = itemTag.user_tag.get()
-                    itemTagsList.append({
-                        'id': userTag.key.urlsafe(),
-                        'title': userTag.title,
-                        'slug': userTag.slug
-                    })
+        # serialize user item
+        userItemObj = {
+            'id': itemID,
+            'site': site.url,
+            'site_popularity': site.popularity,
+            'search_tags': userItem.search_tags,
+            'title': userItem.title,
+            'rating': userItem.rating,
+            'note': userItem.note,
+            'date_added': str(userItem.date_added),
+            'date_modified': str(userItem.date_modified),
+            'item_files': itemFilesList,
+            'item_tags': itemTagsList
+        }
 
-                # get item files
-                itemFiles = ItemFiles.query(ItemFiles.user_item == userItem.key)
-                itemFilesList = []
-                for itemFile in itemFiles:
+        return userItemObj
 
-                    userFile = itemFile.user_file.get()
-                    itemFilesList.append({
-                        'id': userFile.key.urlsafe(),
-                        'file_location': userFile.file_location,
-                        'file_type': userFile.file_type,
-                        'title': userFile.title,
-                        'caption': userFile.caption
-                    })
+    # updateUserItem - UPDATE
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @staticmethod
+    def updateUserItem(itemID, user, siteURL, title, searchTags, note, userFiles, tags):
 
-                # serialize user items
-                userItemsList.append({
-                    'id': userItem.key.urlsafe(),
-                    'site': site.url,
-                    'site_popularity': site.popularity,
-                    'search_tags': userItem.search_tags,
-                    'title': userItem.title,
-                    'rating': userItem.rating,
-                    'note': userItem.note,
-                    'date_added': str(userItem.date_added),
-                    'date_modified': str(userItem.date_modified),
-                    'item_files': itemFilesList,
-                    'item_tags': itemTagsList
-                })
+        # get or create new site from url
+        site = ItemService.getOrCreateSite(siteURL)
 
-            return userItemsList
+        itemKey = ndb.Key(urlsafe=itemID)
+        userItem = itemKey.get()
 
-    # createUserItem
+        # update user item
+        userItem.site = site.key
+        userItem.title = title
+        userItem.search_tags = searchTags
+        userItem.note = note
+        userItem.put()
+
+        # remove item files
+        try:
+            itemFiles = ItemFiles.query(ItemFiles.user_item == itemKey).fetch()
+
+            for itemFile in itemFiles:
+                itemFile.key.delete()
+
+        except Exception:
+            pass
+
+        # remove item tags
+        try:
+            itemTags = ItemTags.query(ItemTags.user_item == itemKey).fetch()
+
+            for itemTag in itemTags:
+                itemTag.key.delete()
+
+        except Exception:
+            pass
+
+        # add files to itemFiles
+        for fileID in userFiles:
+
+            userFileKey = ndb.Key(urlsafe=fileID)
+            userFile = userFileKey.get()
+
+            itemFile = ItemFiles(user_item=userItem.key, user_file=userFile.key)
+            itemFile.put()
+
+        # add tags to itemTags
+        for tag in tags:
+
+            # get or create tag
+            userTag = TagService.getOrCreateTag(tag, user)
+
+            itemTag = ItemTags(user_item=userItem.key, user_tag=userTag.key)
+            itemTag.put()
+
+        return userItem
+
+    # createUserItem - CREATE
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
     def createUserItem(user, siteURL, title, searchTags, note, userFiles, tags):
@@ -129,3 +182,25 @@ class ItemService(object):
             site.put()
 
         return site
+
+    # getUserItems
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @staticmethod
+    def getUserItems(user):
+
+        userItems = UserItems.query(UserItems.user == user.key).fetch()
+
+        if userItems:
+
+            userItemsList = []
+
+            # construct python dictionary
+            for userItem in userItems:
+
+                # get user item as object
+                userItemObj = ItemService.getUserItem(userItem.key.urlsafe())
+
+                # serialize user items
+                userItemsList.append(userItemObj)
+
+            return userItemsList
