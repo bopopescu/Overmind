@@ -1,4 +1,4 @@
-""" views.py: Files Views """
+""" views.py: Items Views """
 
 __author__ = "Michael Martin"
 
@@ -115,14 +115,21 @@ def getUserItems(request):
 
         # get parameters
         secretKey = request.POST.get('secret_key')
+        cursor = request.POST.get('cursor')
+        userTag = request.POST.get('user_tag')
 
         # get user
         user = Users.query(Users.secret_key == secretKey).get()
 
         if user:
 
+            # get user items filtered by tag
+            if userTag != '':
+                userItems = ItemService.getUserTagItems(user, userTag, cursor)
+
             # get user items
-            userItems = ItemService.getUserItems(user)
+            else:
+                userItems = ItemService.getUserItems(user, cursor)
 
             return HttpResponse(json.dumps({'user_items': userItems}), mimetype='application/json', status='200')
         else:

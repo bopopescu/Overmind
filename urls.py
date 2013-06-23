@@ -21,6 +21,10 @@ urlpatterns = patterns('',
     (r'^api/user/item/(?P<itemID>[\w\d-]+)/$', 'overmind.items.views.getUserItem'),
     (r'^api/user/item/(?P<itemID>[\w\d-]+)/update/$', 'overmind.items.views.updateUserItem'),
 
+    # USER TAGS
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (r'^api/user/tags/$', 'overmind.tags.views.getUserTags'),
+
     # USER FILES
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     (r'^api/user/files/$', 'overmind.files.views.getUserFiles'),

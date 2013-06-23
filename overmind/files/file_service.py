@@ -51,7 +51,7 @@ class FileService(object):
 
                 userFilesList.append({
                     'id': user_file.key.urlsafe(),
-                    'file_location': user_file.file_location,
+                    'url': user_file.file_location,
                     'file_type': user_file.file_type,
                     'title': user_file.title,
                     'caption': user_file.caption,

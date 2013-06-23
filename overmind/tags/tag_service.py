@@ -17,6 +17,28 @@ from models import UserTags
 
 class TagService(object):
 
+    # Get User Tags
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @staticmethod
+    def getUserTags(user):
+
+        userTags = UserTags.query(UserTags.user == user.key).fetch()
+
+        if userTags:
+            userTagsList = []
+
+            # construct python dictionary
+            for userTag in userTags:
+
+                userTagsList.append({
+                    'id': userTag.key.urlsafe(),
+                    'title': userTag.title,
+                    'slug': userTag.slug,
+                    'date_added': str(userTag.date_added),
+                })
+
+            return userTagsList
+
     # Get or Create Tag
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod

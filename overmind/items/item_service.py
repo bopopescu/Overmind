@@ -6,6 +6,7 @@ import logging
 import uuid
 
 from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 
 # services
 from management.keys import Keys
@@ -53,7 +54,7 @@ class ItemService(object):
             userFile = itemFile.user_file.get()
             itemFilesList.append({
                 'id': userFile.key.urlsafe(),
-                'file_location': userFile.file_location,
+                'url': userFile.file_location,
                 'file_type': userFile.file_type,
                 'title': userFile.title,
                 'caption': userFile.caption
@@ -129,7 +130,7 @@ class ItemService(object):
             # get or create tag
             userTag = TagService.getOrCreateTag(tag, user)
 
-            itemTag = ItemTags(user_item=userItem.key, user_tag=userTag.key)
+            itemTag = ItemTags(user_item=userItem.key, user_tag=userTag.key, user=user.key)
             itemTag.put()
 
         return userItem
@@ -161,7 +162,7 @@ class ItemService(object):
             # get or create tag
             userTag = TagService.getOrCreateTag(tag, user)
 
-            itemTag = ItemTags(user_item=userItem.key, user_tag=userTag.key)
+            itemTag = ItemTags(user_item=userItem.key, user_tag=userTag.key, user=user.key)
             itemTag.put()
 
         return userItem
@@ -183,24 +184,77 @@ class ItemService(object):
 
         return site
 
+    # getUserTagItems
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @staticmethod
+    def getUserTagItems(user, userTag, cursorString):
+
+        # get user tag
+        userTag = TagService.getOrCreateTag(userTag, user)
+
+        # get next page
+        if (cursorString != ''):
+            inputCursor = Cursor(urlsafe=cursorString)
+
+            # get User items tag == userTag
+            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(2, start_cursor=inputCursor)
+
+        # first page
+        else:
+            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(2)
+
+        cursorURLSafe = cursor.urlsafe()
+
+        userItems = {
+            'user_items_list': [],
+            'cursor': cursorURLSafe,
+            'more': more
+        }
+
+        if userTagItemsQuery:
+
+            # construct python dictionary
+            for userTagItem in userTagItemsQuery:
+
+                # get user item as object
+                userItemObj = ItemService.getUserItem(userTagItem.user_item.urlsafe())
+
+                # insert into user items list
+                userItems['user_items_list'].append(userItemObj)
+
+            return userItems
+
     # getUserItems
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
-    def getUserItems(user):
+    def getUserItems(user, cursorString):
 
-        userItems = UserItems.query(UserItems.user == user.key).fetch()
+        # get next page
+        if (cursorString != ''):
+            inputCursor = Cursor(urlsafe=cursorString)
+            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(2, start_cursor=inputCursor)
 
-        if userItems:
+        # first page
+        else:
+            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(2)
 
-            userItemsList = []
+        cursorURLSafe = cursor.urlsafe()
+
+        userItems = {
+            'user_items_list': [],
+            'cursor': cursorURLSafe,
+            'more': more
+        }
+
+        if userItemsQuery:
 
             # construct python dictionary
-            for userItem in userItems:
+            for userItem in userItemsQuery:
 
                 # get user item as object
                 userItemObj = ItemService.getUserItem(userItem.key.urlsafe())
 
-                # serialize user items
-                userItemsList.append(userItemObj)
+                # insert into user items list
+                userItems['user_items_list'].append(userItemObj)
 
-            return userItemsList
+            return userItems

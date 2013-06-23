@@ -1,0 +1,33 @@
+indexes:
+
+- kind: UserFiles
+  properties:
+  - name: user
+  - name: user_file
+
+- kind: UserItems
+  properties:
+  - name: site
+  - name: user
+  - name: search_tags
+  - name: title
+  - name: rating
+  - name: date_added
+  - name: date_modified
+
+- kind: ItemTags
+  properties:
+  - name: user_item
+  - name: user_tag
+
+- kind: ItemFiles
+  properties:
+  - name: user_item
+  - name: user_file
+
+- kind: Sites
+  properties:
+  - name: url
+  - name: popularity
+  - name: date_added
+  - name: date_modified
