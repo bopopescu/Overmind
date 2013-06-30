@@ -258,3 +258,5 @@ class ItemService(object):
                 userItems['user_items_list'].append(userItemObj)
 
             return userItems
+
+        return None

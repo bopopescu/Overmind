@@ -30,6 +30,7 @@ def getUserFiles(request):
 
         # get parameters
         secret_key = request.POST.get('secret_key')
+        cursor = request.POST.get('cursor')
 
         # get user
         user = Users.query(Users.secret_key == secret_key).get()
@@ -37,7 +38,7 @@ def getUserFiles(request):
         if user:
 
             # get user files
-            userFiles = FileService.getUserFiles(user)
+            userFiles = FileService.getUserFiles(user, cursor)
 
             return HttpResponse(json.dumps({'user_files': userFiles}), mimetype='application/json', status='200')
         else:

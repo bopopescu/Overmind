@@ -4,6 +4,8 @@ __author__ = "Michael Martin"
 
 import logging
 import uuid
+from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 from boto.s3.connection import S3Connection
 
 # services
@@ -31,36 +33,59 @@ AWS_ACL = 'public-read'
 
 class FileService(object):
 
+    # getUserFile -
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @staticmethod
+    def getUserFile(userFileKey):
+
+        # get item by key
+        userFile = userFileKey.get()
+
+        userFileObj = {
+            'id': userFile.key.urlsafe(),
+            'url': userFile.file_location,
+            'file_type': userFile.file_type,
+            'title': userFile.title,
+            'caption': userFile.caption,
+            'meta': userFile.meta,
+            'date_added': str(userFile.date_added),
+            'date_modified': str(userFile.date_modified),
+        }
+
+        return userFileObj
+
     # Get User Files
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
-    def getUserFiles(user):
+    def getUserFiles(user, cursorString):
 
-        userFiles = UserFiles.query(UserFiles.user == user.key).fetch()
+        # get next page
+        if (cursorString != ''):
+            inputCursor = Cursor(urlsafe=cursorString)
+            userFilesQuery, cursor, more = UserFiles.query(UserFiles.user == user.key).fetch_page(4, start_cursor=inputCursor)
+
+        # first page
+        else:
+            userFilesQuery, cursor, more = UserFiles.query(UserFiles.user == user.key).fetch_page(4)
+
+        cursorURLSafe = cursor.urlsafe()
+
+        userFiles = {
+            'user_files_list': [],
+            'cursor': cursorURLSafe,
+            'more': more
+        }
 
         # list items found
-        if userFiles:
-
-            userFilesList = []
+        if userFilesQuery:
 
             # construct python list
-            for userFile in userFiles:
+            for userFile in userFilesQuery:
 
-                # get file object
-                user_file = userFile.user_file.get()
+                userFileObj = FileService.getUserFile(userFile.user_file)
+                userFiles['user_files_list'].append(userFileObj)
 
-                userFilesList.append({
-                    'id': user_file.key.urlsafe(),
-                    'url': user_file.file_location,
-                    'file_type': user_file.file_type,
-                    'title': user_file.title,
-                    'caption': user_file.caption,
-                    'meta': user_file.meta,
-                    'date_added': str(user_file.date_added),
-                    'date_modified': str(user_file.date_modified),
-                })
-
-            return userFilesList
+            return userFiles
 
         return None
 
