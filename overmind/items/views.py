@@ -117,6 +117,7 @@ def getUserItems(request):
         secretKey = request.POST.get('secret_key')
         cursor = request.POST.get('cursor')
         userTag = request.POST.get('user_tag')
+        limit = request.POST.get('limit')
 
         # get user
         user = Users.query(Users.secret_key == secretKey).get()
@@ -125,11 +126,11 @@ def getUserItems(request):
 
             # get user items filtered by tag
             if userTag != '':
-                userItems = ItemService.getUserTagItems(user, userTag, cursor)
+                userItems = ItemService.getUserTagItems(user, userTag, cursor, limit)
 
             # get user items
             else:
-                userItems = ItemService.getUserItems(user, cursor)
+                userItems = ItemService.getUserItems(user, cursor, limit)
 
             return HttpResponse(json.dumps({'user_items': userItems}), mimetype='application/json', status='200')
         else:

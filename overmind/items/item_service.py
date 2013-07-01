@@ -187,7 +187,7 @@ class ItemService(object):
     # getUserTagItems
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
-    def getUserTagItems(user, userTag, cursorString):
+    def getUserTagItems(user, userTag, cursorString, limit):
 
         # get user tag
         userTag = TagService.getOrCreateTag(userTag, user)
@@ -197,11 +197,11 @@ class ItemService(object):
             inputCursor = Cursor(urlsafe=cursorString)
 
             # get User items tag == userTag
-            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(2, start_cursor=inputCursor)
+            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(int(limit), start_cursor=inputCursor)
 
         # first page
         else:
-            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(2)
+            userTagItemsQuery, cursor, more = ItemTags.query(ItemTags.user_tag == userTag.key, ItemTags.user == user.key).fetch_page(int(limit))
 
         cursorURLSafe = cursor.urlsafe()
 
@@ -227,16 +227,16 @@ class ItemService(object):
     # getUserItems
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @staticmethod
-    def getUserItems(user, cursorString):
+    def getUserItems(user, cursorString, limit):
 
         # get next page
         if (cursorString != ''):
             inputCursor = Cursor(urlsafe=cursorString)
-            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(2, start_cursor=inputCursor)
+            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(int(limit), start_cursor=inputCursor)
 
         # first page
         else:
-            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(2)
+            userItemsQuery, cursor, more = UserItems.query(UserItems.user == user.key).fetch_page(int(limit))
 
         cursorURLSafe = cursor.urlsafe()
 
