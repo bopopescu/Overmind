@@ -1,0 +1,57 @@
+/* -----------------------------------------
+   USER ITEMS
+----------------------------------------- */
+.user-items {
+
+    .user-item-container {
+        display: block;
+        padding: 0;
+        width: 200px;
+        cursor: pointer;
+        overflow: hidden;
+        margin-bottom: 10px;
+
+        &:hover {
+            .overlay {
+                opacity: 1;
+            }
+        };
+    }
+
+    .item {
+
+    }
+
+    .overlay {
+        @include transition(.4s opacity);
+        background-color: rgba(0, 0, 0, 0.7);
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        opacity: 0;
+
+        h2, h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 1.8em;
+            text-align: center;
+            top: 50%;
+            position: relative;
+            margin-top: -0.6em;
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 1.2em;
+            text-align: center;
+            top: 50%;
+            position: relative;
+            margin-top: -.5em;
+        }
+    }
+}

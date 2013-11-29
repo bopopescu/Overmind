@@ -1,0 +1,6 @@
+<div class="image-grid">
+    <div class="image-container" ng-repeat="image in imageList" ng-click="toggleItemFile(image.id, $event)">
+        <div class="overlay"><button class="view-image-button secondary tiny" ng-click="viewImage(image.id, $event)">View Image</button></div>
+        <div class="image [[ image.id ]]" ng-class="{active: image.active}"><img ng-src="[[ image.url ]]"></div>
+    </div>
+</div>

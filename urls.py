@@ -38,6 +38,6 @@ urlpatterns = patterns('',
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     (r'^key/$', 'overmind.management.views.setAPIKey'),
 
-    # catch all
+    # catch all - for html 5 urls
     (r'^.*/$', 'overmind.views.index'),
 )

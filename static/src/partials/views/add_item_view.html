@@ -1,0 +1,36 @@
+<div class="add-item row">
+
+    <div class="columns large-11">
+        <h4>Uploaded Files</h4>
+
+        <!-- directive: masonary-grid -->
+        <div masonry-grid="item-files" mode="toggle" class="masonry-grid"></div>
+
+        <h4>All User Files</h4>
+        <!-- directive: user-files -->
+        <div user-files active-files="itemDetail.activeUserFiles"></div>
+    </div>
+
+    <div class="columns large-12 end">
+
+        <!-- directive: item form -->
+        <div item-form="itemForm"></div>
+
+        <!-- directive: progress bar -->
+        <div progress-bar active="state.saving" mode="saving" size="24"></div>
+
+        <!-- directive: progress bar -->
+        <div progress-bar active="addItemState.saving" mode="saving" size="24"></div>
+
+        <ul class="add-item-buttons button-group seperate">
+          <li><button class="secondary icon-screenshot left-icon" ng-click="showImagePanel()"> Insert Screenshot</button></li>
+          <li><button class="alert icon-ok left-icon" ng-click="saveItem()"> Save</button></li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- directive: paste-capture -->
+<div paste-capture active="state.imageEditorActive"></div>
+<!-- directive: image-editor -->
+<div image-editor image-source="imageEditor.uploadedImage" mode="inline" save-mode="base64"></div>

@@ -1,0 +1,7 @@
+.ellipsis-text {
+    @include ellipsis-text()
+}
+
+.paragraph-content {
+    @include paragraph-content()
+}

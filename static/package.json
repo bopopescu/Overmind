@@ -1,0 +1,20 @@
+{
+  "name": "overmind",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-remove-logging": "*",
+    "grunt-traceur": "*",
+    "grunt-bless": "*",
+    "grunt-ngmin": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-ftp-deploy": "*",
+    "grunt-include-replace": "*"
+  }
+}

@@ -1,0 +1,25 @@
+<!-- login -->
+<form name="loginForm" class="login-form">
+    <fieldset>
+        <legend>Login</legend>
+        <div class="row">
+            <div class="large-24 columns">
+                <label for="login_username">Username</label>
+                <input id="login_username" name="username" type="text" ng-model="user.username" required value="1"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-24 columns">
+                <label for="login_password">Password</label>
+                <input id="login_password" name="password" type="password" ng-model="user.password" required value="1"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns large-24">
+                <button ng-disabled="loginForm.$invalid || isUnchanged(user)" class="button alert" ng-click="login(user)">Login</button>
+            </div>
+        </div>
+    </fieldset>
+</form>

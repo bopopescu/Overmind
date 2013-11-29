@@ -1,0 +1,25 @@
+<section class="[[ masonryGridName ]]">
+
+    <div class="masonry-grid-container">
+        <div class="grid-item [[ item.id ]]" ng-class="{active: item.active}" ng-repeat="item in gridItems" ng-click="selectItem(item.id, $event)">
+
+            <div class="overlay">
+                <button class="view-image-button secondary icon-maximize only-icon" ng-click="viewImage(item.id, $event)"></button>
+                <h2 class="grid-item-title">[[ item.title ]]</h2>
+                <h2 class="grid-item-title active-title">Active</h2>
+            </div>
+            <div class="item"><img ng-src="[[ item.url ]]"></div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns large-24">
+            <!-- directive: progress bar -->
+            <div progress-bar active="state.loading" mode="saving" size="24"></div>
+        </div>
+    </div>
+
+</section>
+
+

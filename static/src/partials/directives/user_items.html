@@ -1,0 +1,26 @@
+<div class="user-items">
+
+    <div class="row section">
+        <!-- filter -->
+        <div class="columns large-6">
+            <div tag-select tags="userTags.allTags" selected-tag="userTags.selectedTag" placeholder="Select Tag" autocomplete="true" show-list="true"></div>
+        </div>
+
+        <div class="columns large-6 end">
+            <button class="secondary" ng-click="nextPage()" ng-disabled="state.loading">
+                Next Page
+                <!-- directive: progress bar -->
+                <div progress-bar active="state.loading" mode="loading" size="24"></div>
+            </button>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns large-24">
+            <!-- directive: masonary-grid -->
+            <div masonry-grid="userItems" mode="navigate" class="masonry-grid"></div>
+        </div>
+    </div>
+
+</div>

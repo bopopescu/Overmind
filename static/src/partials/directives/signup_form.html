@@ -1,0 +1,25 @@
+<!-- login -->
+<form name="signupForm" class="login-form">
+    <fieldset>
+        <legend>Signup</legend>
+        <div class="row">
+            <div class="large-24 columns">
+                <label for="signup_username">Username</label>
+                <input id="signup_username" name="username" type="text" ng-model="user.username" required/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-24 columns">
+                <label for="signup_password">Password</label>
+                <input id="signup_password" name="password" type="password" ng-model="user.password" required/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns large-24">
+                <button ng-disabled="signupForm.$invalid || isUnchanged(user)" class="button alert" ng-click="createUser(user)">Sign up</button>
+            </div>
+        </div>
+    </fieldset>
+</form>

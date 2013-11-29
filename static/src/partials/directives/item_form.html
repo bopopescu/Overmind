@@ -1,0 +1,43 @@
+<!-- item form -->
+<form class="item-form">
+    <fieldset>
+        <legend>Insert Item</legend>
+
+        <div class="row">
+            <div class="large-12 columns">
+
+                <div class="row">
+                    <div class="columns large-24">
+                        <label for="title">Title</label>
+                        <input name="title" type="text" ng-model="itemForm.title"/>
+                    </div>
+                    <div class="large-24 columns">
+                        <label for="url">URL</label>
+                        <input name="url" type="text" ng-model="itemForm.url"/>
+                    </div>
+                    <div class="large-24 columns">
+                        <label for="search-tags">Search Tags</label>
+                        <input name="search-tags" type="text" ng-model="itemForm.searchTags"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="large-12 columns">
+                <div vertical-tags tags="itemForm.userTags.allTags" selected-tags="itemForm.userTags.selectedTags" placeholder="Tags" autocomplete="true" show-list="true"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns large-24">
+                <label for="note">Notes</label>
+
+                <!-- directive: text editor -->
+                <div text-editor="notes" read="itemForm.notes.read"  write="itemForm.notes.write" placeholder="Add Note" class="editor-container"></div>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+

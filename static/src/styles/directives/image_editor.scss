@@ -1,0 +1,147 @@
+/* -----------------------------------------
+   IMAGE PANEL
+----------------------------------------- */
+.paste-capture {
+    opacity: 0;
+}
+
+.image-panel {
+
+    &.inactive {
+        padding: 0px;
+        height: 0 !important;
+    }
+
+    /* inline mode */
+    &.inline {
+        @include transition(height .4s);
+        background-color: rgba(255, 255, 255, 0.5);
+        position: relative;
+        width: 100%;
+        padding: 10px;
+        overflow: hidden;
+        max-height: 640px;
+
+        .image-editor-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .image-editor {
+            max-height: 550px;
+            position: relative;
+            overflow: auto;
+        }
+
+        .editor-buttons {
+            margin: 0 auto;
+            width: 200px;
+
+            li {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    /* fullscreen mode */
+    &.fullscreen {
+        position: fixed;
+        bottom: 0px;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        z-index: 2;
+
+        .image-editor-container {
+            position: absolute;
+            background-color: rgba(42, 46, 51, 0.84);
+            width: 100%;
+            overflow: hidden;
+            bottom: 0px;
+            top: 0px;
+        }
+
+        .image-editor {
+            position: absolute;
+            overflow: auto;
+            bottom: 60px;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+        }
+
+        .editor-buttons {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            margin-left: -100px;
+
+            li {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    /* image editor */
+    .image-editor {
+
+        .image {
+            width: 100%;
+            height: 100%;
+            -webkit-transform: translate3d(0px, 0px, 0px);
+            cursor: crosshair;
+        }
+
+        /* crop overlay */
+        .crop-overlay {
+            @include transition(opacity 500ms);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+
+            &.active {
+                opacity: 1;
+            }
+
+        }
+
+        /* crop selection */
+        .crop-selection {
+            @include transition(opacity 250ms);
+            position: absolute;
+            background-image: inherit;
+            box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+
+            &.active {
+                opacity: 1;
+            }
+
+            &:hover {
+                cursor: move;
+            }
+        }
+
+        /* right handle */
+        .right-handle {
+            height: 100%;
+            width: 15px;
+            position: absolute;
+            right: -15px;
+            cursor: ew-resize;
+
+            .nub {
+                width: 5px;
+                height: 20px;
+                background-color: #000;
+                position: absolute;
+                top: 50%;
+                left: -6px;
+                margin-top: -10px;
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+<div class="image-panel inactive [[ mode ]]">
+    <div class="image-editor-container">
+
+        <div class="image-editor">
+            <div class="image">
+                <div class="crop-overlay"></div>
+
+                <!-- crop selection -->
+                <div class="crop-selection">
+
+                    <!-- right resize handle -->
+                    <div class="right-handle" ng-mousedown="eastResize($event)">
+                        <div class="nub"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- directive: progress bar -->
+        <!-- <div progress-bar active="imageEditor.progress" size="12"></div> -->
+
+        <ul class="editor-buttons button-group">
+            <li><button class="secondary icon-remove left-icon" ng-click="hideImageEditor()"> Close</button></li>
+            <li><button class="alert icon-crop left-icon" ng-click="saveImage()"> Crop</button></li>
+        </ul>
+
+    </div>
+</div>
+
