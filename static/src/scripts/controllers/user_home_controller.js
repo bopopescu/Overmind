@@ -1,12 +1,12 @@
+var App = angular.module('overmind');
+
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * User Home Controller - user logged in, home
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var UserHomeController = function($rootScope, $scope, $http, $routeParams, $location, User, Tag) {
+App.controller('UserHomeController', function($rootScope, $scope, $http, $routeParams, $location, User, Tag) {
+    'use strict';
 
-    // constants
-
-    // scope data
-    // status of app - visibility classes
+    // scope
     $scope.state = {
 
     };
@@ -25,10 +25,4 @@ var UserHomeController = function($rootScope, $scope, $http, $routeParams, $loca
     function createEventHandlers() {
 
     }
-};
-
-
-var App = angular.module('overmind');
-App.controller('UserHomeController', UserHomeController);
-
-UserHomeController.$inject = ['$rootScope', '$scope', '$http', '$routeParams', '$location', 'User', 'Tag'];
+});

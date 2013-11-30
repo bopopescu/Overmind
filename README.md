@@ -1,4 +1,2 @@
-Overmind-Backend
+Overmind
 ================
-
-Overmind-Backend

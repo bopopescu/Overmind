@@ -1,12 +1,12 @@
+var App = angular.module('overmind');
+
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Add Item Controller - add user items
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var AddItemController = function($rootScope, $scope, Item, File, Tag) {
-
-    // constants
+App.controller('AddItemController', function($rootScope, $scope, Item, File, Tag) {
+    'use strict';
 
     // scope data
-    // status of app - visibility classes
     $scope.state = {
         'saving': false,
         'imageEditorActive': false
@@ -45,11 +45,11 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     function createEventHandlers() {
 
-        $scope.$on('image-editor-enabled', function(e, data) {
+        $scope.$on('image-editor:enabled', function(e, data) {
             $scope.state.imageEditorActive = true;
         });
 
-        $scope.$on('image-editor-disabled', function(e, data) {
+        $scope.$on('image-editor:disabled', function(e, data) {
             $scope.state.imageEditorActive = false;
         });
 
@@ -69,8 +69,8 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
             }
         }, true);
 
-        // image editor: save-image
-        $scope.$on('save-image', function(e, file) {
+        // image editor: image-editor:save-image
+        $scope.$on('image-editor:save-image', function(e, file) {
 
             // upload as base64
             File.uploadBase64Image(file).then(function(data) {
@@ -85,10 +85,10 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
                 // convert to object
                 var itemFiles = {
                     'name': 'item-files',
-                    'list': {}
+                    'list': []
                 };
 
-                itemFiles.list[file.id] = file;
+                itemFiles.list.push(file);
 
                 $rootScope.safeApply(function() {
                     // set as active
@@ -99,7 +99,7 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
                 $scope.$broadcast('masonry-grid:add-items', itemFiles);
             });
 
-            $rootScope.$broadcast('hide-image-editor', {});
+            $rootScope.$broadcast('image-editor:hide-image-editor', {});
         });
 
         // masonry-grid:item-toggled
@@ -176,7 +176,7 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
     /* showImagePanel -
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     function showImagePanel() {
-        $rootScope.$broadcast('show-image-editor', {});
+        $rootScope.$broadcast('image-editor:show-image-editor', {});
     }
 
     /* closeImagePanel -
@@ -188,10 +188,4 @@ var AddItemController = function($rootScope, $scope, Item, File, Tag) {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     $scope.saveItem = saveItem;
     $scope.showImagePanel = showImagePanel;
-};
-
-
-var App = angular.module('overmind');
-App.controller('AddItemController', AddItemController);
-
-AddItemController.$inject = ['$rootScope', '$scope', 'Item', 'File', 'Tag'];
+});

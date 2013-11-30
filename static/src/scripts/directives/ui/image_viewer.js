@@ -3,14 +3,15 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Image Viewer Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('imageViewer', ['$rootScope', function($rootScope) {
+App.directive('imageViewer', function($rootScope) {
+    'use strict';
 
     // constants
     var SCROLL_MARGIN = 15;
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/ui/image_viewer.html',
+        templateUrl: '/static/partials/directives/ui/image_viewer.html',
         replace: true,
         scope: {
         },
@@ -220,4 +221,4 @@ App.directive('imageViewer', ['$rootScope', function($rootScope) {
             $scope.closeImage = closeImage;
         }
     };
-}]);
+});

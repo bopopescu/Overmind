@@ -3,7 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * User Service -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.factory('User', ['$http', function($http) {
+App.factory('User', function($http) {
+    'use strict';
 
     // service data
     var user = {};      // logged in user data
@@ -85,4 +86,4 @@ App.factory('User', ['$http', function($http) {
     };
 
     return publicMethods;
-}]);
+});

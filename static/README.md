@@ -1,4 +1,0 @@
-Overmind-Frontend
-=================
-
-Overmind-Frontend

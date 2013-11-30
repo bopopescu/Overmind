@@ -3,25 +3,32 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Masonry Grid Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
+App.directive('masonryGrid', function($rootScope, $q, $timeout, Utilities) {
+    'use strict';
 
     // constants
+    var LOAD_SPEED = 500;   // ms in between queue shifts
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/ui/masonry_grid.html',
         replace: true,
-        scope: {
-            'masonryGridName': '@masonryGrid',
-            'mode': '@'
-        },
+        scope: true,
 
         link: function($scope, $element, $attrs) {
 
+            // properties
+            var intialized = false,
+                queuePaused = false,
+                loadSpeed = LOAD_SPEED;
+
+            // objects
+            var gridItemsQueue = [];
+
+            // functions
+            var windowResizedDebounced = windowResized.debounce(250);
+
             // scope data
             $scope.gridItems = {};
-
-            // properties
 
             // jquery elements
             var $masonryGrid = $element.find('.masonry-grid-container');
@@ -34,22 +41,42 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
             initialize();
             createEventListeners();
 
-            /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            * initialize -
+            /* initialize -
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             function initialize() {
+
+                // disable transitions for ie
+                var isIE = Utilities.isIE();
+                if (isIE) {
+                    $masonryGrid.addClass('no-transition');
+                }
+
+                setParameters();
                 initializeIsotope();
             }
 
-            /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            * createEventListeners -
+            /* setParameters -
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            function setParameters() {
+
+                // load speed in ms - time between queue shifts
+                loadSpeed = ($attrs.loadSpeed) ? parseInt($attrs.loadSpeed, 10) : LOAD_SPEED;
+            }
+
+            /* createEventListeners -
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             function createEventListeners() {
 
                 // add-items
+                $(window).resize(function() {
+                    windowResizedDebounced();
+                });
+
+                // add-items
                 $scope.$on('masonry-grid:add-items', function(e, items) {
 
-                    if (items.name === $scope.masonryGridName) {
+
+                    if (items.name === $attrs.gridName) {
                         addItems(items.list);
                     }
                 });
@@ -57,10 +84,11 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
                 // replace-items
                 $scope.$on('masonry-grid:replace-items', function(e, items) {
 
-                    if (items.name === $scope.masonryGridName) {
+                    if (items.name === $attrs.gridName) {
 
-                        // reset isotope and add items
+                        // reset isotope
                         resetIsotope().then(function() {
+                            initializeIsotope();
                             addItems(items.list);
                         });
                     }
@@ -71,9 +99,57 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
 
                     // set active state
                     if ($scope.gridItems && Object.size($scope.gridItems) > 0 && Object.has($scope.gridItems, itemProperties.id)) {
-
                         $scope.gridItems[itemProperties.id].active = itemProperties.active;
                     }
+                });
+
+                // content-tabs:tab-active - when content-tab directive active state changes check if active and pause if not
+                $scope.$on('content-tabs:tab-active', function(e, tabID) {
+
+                    // // pause queue if element is not visible
+                    if (Utilities.isElementVisible($element)) {
+                        queuePaused = false;
+
+                        $scope.state.loading = true;
+                        loadQueuedGridItem();
+
+                        // trigger sort refreshes viewport after being hidden
+                        $masonryGrid.isotope({sortBy : 'refresh'});
+
+                    } else {
+                        queuePaused = true;
+                    }
+
+                });
+            }
+
+            /* initializeIsotope - create isotope on element
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            function initializeIsotope() {
+
+                $masonryGrid.isotope({
+                    itemSelector: '.grid-item',
+                    masonry: {
+                        columnWidth: $attrs.gridWidth
+                    },
+                    getSortData: {
+                        sort: function ($elem) {
+
+                            var sortValue = $elem.attr('data-' + $attrs.order);
+
+                            // is number
+                            if (!isNaN(parseFloat(sortValue)) && isFinite(sortValue)) {
+                                sortValue = parseInt(sortValue, 10);
+
+                            // is date
+                            } else {
+                                sortValue = parseInt(moment(sortValue).unix(), 10);
+                            }
+
+                            return sortValue;
+                        }
+                    },
+                    sortAscending : ($attrs.sortAscending === 'true' ? true : false)
                 });
             }
 
@@ -83,69 +159,98 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
 
                 if (gridItems && Object.size(gridItems) > 0) {
 
-                    $scope.state.loading = true;
+                    intialized = true;
 
-                    var fileCount = Object.size(gridItems);
-                    var filesLoaded = 0;
+                    // add items to end of queue
+                    gridItemsQueue.add(gridItems);
 
-                    // iterate grid items
-                    Object.extended(gridItems).each(function(key, gridItem) {
+                    // start loading from queued grid items
+                    if (!$scope.state.loading) {
 
-                        // iterate image urls
-                        var image = new Image();
-                        image.src = gridItem.url;
-
-                        // image loaded
-                        image.onload = function() {
-                            filesLoaded++;
-
-                            var insertGridItem = {};
-                            insertGridItem[gridItem.id] = gridItem;
-
-                            // merge local item with grid items
-                            $rootScope.safeApply(function() {
-                                angular.extend($scope.gridItems, insertGridItem);
-
-                                if (filesLoaded === fileCount) {
-                                    $scope.state.loading = false;
-                                }
-                            });
-
-                            addIsotopeItem(gridItem);
-                        };
-                    });
+                        $scope.state.loading = true;
+                        loadQueuedGridItem();
+                    }
                 }
             }
 
-            /* resetIsotope - async remove isotope items - clear $scope.gridItem
-            @return - promise
+            /* loadQueuedGridItem - load item in sequence
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            function resetIsotope() {
+            function loadQueuedGridItem() {
 
-                var deferred = $q.defer();
-
-                // destroy existing isotope
-                $masonryGrid.isotope('remove', $element.find('.isotope-item'), function() {
-
-                    deferred.resolve();
+                if (gridItemsQueue.length === 0 || queuePaused) {
 
                     $rootScope.safeApply(function() {
-                        $scope.gridItems = {};
+                        $scope.state.loading = false;
                     });
-                });
 
-                return deferred.promise;
+                    return;
+                }
+
+                // remove first item from queue
+                var gridItem = gridItemsQueue.shift();
+
+                // grid item with image
+                if (gridItem.url) {
+
+                    // iterate image urls
+                    var image = new Image();
+                    image.src = gridItem.url;
+
+                    // image loaded
+                    image.onload = function() {
+                        insertQueuedGridItem(gridItem);
+                    };
+                    // image error
+                    image.onerror = function() {
+                        insertQueuedGridItem(gridItem);
+                    };
+
+                // grid item without image
+                } else {
+                    insertQueuedGridItem(gridItem);
+                }
             }
 
-            /* initializeIsotope - create isotope on element
+            /* insertQueuedGridItem -
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            function initializeIsotope() {
+            function insertQueuedGridItem(gridItem) {
 
-                $masonryGrid.isotope({
-                    itemSelector : '.grid-item',
-                    masonry: {
-                        columnWidth: 210
-                    }
+                $timeout(function() {
+
+                    // insert grid item
+                    insertGridItem(gridItem);
+
+                    // load next grid item
+                    loadQueuedGridItem();
+
+                }, loadSpeed);
+            }
+
+            /* insertGridItem - insert item into isotope grid
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            function insertGridItem(gridItem) {
+
+                var newGridItem = {};
+                newGridItem[gridItem.id] = gridItem;
+
+                // merge local item with grid items
+                $rootScope.safeApply(function() {
+                    angular.extend($scope.gridItems, newGridItem);
+                });
+
+                // insert item into isotope
+                addIsotopeItem(gridItem);
+            }
+
+            /* addIsotopeItem - append grid items
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            function addIsotopeItem(gridItem) {
+
+                var $newGridItem = $element.find('.' + gridItem.id);
+
+                // item appended
+                $masonryGrid.isotope('appended', $newGridItem, function() {
+                    $masonryGrid.isotope({sortBy : 'refresh'});
                 });
             }
 
@@ -161,27 +266,50 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
                 var queryString = itemList.join(',');
                 var $newGridItems = $element.find(queryString);
 
+                // items appended
                 $masonryGrid.isotope('appended', $newGridItems, function() {
-                    // items appended
+                    $masonryGrid.isotope({sortBy : 'refresh'});
                 });
             }
 
-            /* addIsotopeItem - append grid items
+            /* windowResized - window size changed
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            function addIsotopeItem(gridItem) {
+            function windowResized() {
 
-                var $newGridItem = $element.find('.' + gridItem.id);
+                $timeout(function() {
+                    $masonryGrid.isotope({sortBy : 'refresh'});
+                }, 200);
+            }
 
-                $masonryGrid.isotope('appended', $newGridItem, function() {
-                    // item appended
+            /* resetIsotope - async remove isotope items - clear $scope.gridItem
+            @return - promise
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            function resetIsotope() {
+
+                var deferred = $q.defer();
+
+                // destroy existing isotope
+                $masonryGrid.isotope('remove', $element.find('.grid-item'), function() {
+
+                    deferred.resolve();
+
+                    $rootScope.safeApply(function() {
+                        $scope.gridItems = {};
+                    });
                 });
+
+                if (!intialized) {
+                    deferred.resolve();
+                }
+
+                return deferred.promise;
             }
 
             /* selectItem -
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             function selectItem(itemID, e) {
 
-                if ($scope.mode === 'toggle') {
+                if ($attrs.mode === 'toggle') {
                     toggleItem(itemID);
 
                 } else {
@@ -222,11 +350,10 @@ App.directive('masonryGrid', ['$rootScope', '$q', function($rootScope, $q) {
                 e.stopPropagation();
             }
 
-            /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            * Scope Methods
+            /* Scope Methods
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             $scope.selectItem = selectItem;
             $scope.viewImage = viewImage;
         }
     };
-}]);
+});

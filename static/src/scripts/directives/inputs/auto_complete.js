@@ -3,11 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Auto Complete Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('autoComplete', ['$rootScope', function($rootScope) {
+App.directive('autoComplete', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/input/auto_complete.html',
+        templateUrl: '/static/partials/directives/input/auto_complete.html',
         replace: true,
         scope: {
             terms: '=',
@@ -164,7 +165,7 @@ App.directive('autoComplete', ['$rootScope', function($rootScope) {
                         if (!active) {
                             return;
                         }
-                        hide();
+                        // hide();
                         break;
 
                     default:
@@ -276,4 +277,4 @@ App.directive('autoComplete', ['$rootScope', function($rootScope) {
         }
     };
 
-}]);
+});

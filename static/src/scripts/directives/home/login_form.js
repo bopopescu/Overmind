@@ -3,13 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Login Form Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('loginForm', ['$rootScope', 'User', function($rootScope, User) {
-
-    // constants
+App.directive('loginForm', function($rootScope, User) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/login_form.html',
+        templateUrl: '/static/partials/directives/login_form.html',
         replace: false,
         scope: {
             'property': '='
@@ -65,4 +64,4 @@ App.directive('loginForm', ['$rootScope', 'User', function($rootScope, User) {
 
         }
     };
-}]);
+});

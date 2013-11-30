@@ -3,8 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * File Service -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.factory('File', ['$http', 'User', function($http, User) {
-
+App.factory('File', function($http, User) {
+    'use strict';
 
     /* getUserFiles -
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -58,4 +58,4 @@ App.factory('File', ['$http', 'User', function($http, User) {
 
     return publicMethods;
 
-}]);
+});

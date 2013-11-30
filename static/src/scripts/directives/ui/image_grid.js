@@ -3,13 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Image Grid Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('imageGrid', ['$rootScope', function($rootScope) {
-
-    // constants
+App.directive('imageGrid', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/ui/image_grid.html',
+        templateUrl: '/static/partials/directives/ui/image_grid.html',
         replace: false,
         scope: {
             'imageGridName': '@imageGrid',
@@ -140,4 +139,4 @@ App.directive('imageGrid', ['$rootScope', function($rootScope) {
 
         }
     };
-}]);
+});

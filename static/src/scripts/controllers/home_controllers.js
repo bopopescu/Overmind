@@ -1,12 +1,12 @@
+var App = angular.module('overmind');
+
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Home Controller - logged out home controller
+* Home Controller -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var HomeController = function($rootScope, $scope, $http, $routeParams, $location, $timeout) {
+App.controller('HomeController', function($rootScope, $scope, $http, $routeParams, $location, $timeout) {
+    'use strict';
 
-    // constants
-
-    // scope data
-    // status of app - visibility classes
+    // scope
     $scope.state = {
     };
 
@@ -45,10 +45,4 @@ var HomeController = function($rootScope, $scope, $http, $routeParams, $location
         });
     }
 
-};
-
-
-var App = angular.module('overmind');
-App.controller('HomeController', HomeController);
-
-HomeController.$inject = ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$timeout'];
+});

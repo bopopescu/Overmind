@@ -3,13 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Item Form Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('itemForm', ['$rootScope', 'Item', function($rootScope, Item) {
-
-    // constants
+App.directive('itemForm', function($rootScope, Item) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/item_form.html',
+        templateUrl: '/static/partials/directives/item_form.html',
         replace: false,
         scope: {
             'itemForm': '=',
@@ -26,6 +25,7 @@ App.directive('itemForm', ['$rootScope', 'Item', function($rootScope, Item) {
             /* initialize -
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             function initialize() {
+                console.log('item form');
 
             }
 
@@ -56,4 +56,4 @@ App.directive('itemForm', ['$rootScope', 'Item', function($rootScope, Item) {
 
         }
     };
-}]);
+});

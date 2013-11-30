@@ -1,12 +1,12 @@
+var App = angular.module('overmind');
+
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Item Detail Controller - item detail
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $location, $q, User, Item, File, Tag) {
+App.controller('ItemDetailController', function($rootScope, $scope, $http, $routeParams, $location, $q, User, Item, File, Tag) {
+    'use strict';
 
-    // constants
-
-    // scope data
-    // status of app - visibility classes
+    // scope
     $scope.state = {
         'saving': false,
         'imageEditorActive': false
@@ -66,11 +66,11 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     function createEventHandlers() {
 
-        $scope.$on('image-editor-enabled', function(e, data) {
+        $scope.$on('image-editor:enabled', function(e, data) {
             $scope.state.imageEditorActive = true;
         });
 
-        $scope.$on('image-editor-disabled', function(e, data) {
+        $scope.$on('image-editor:disabled', function(e, data) {
             $scope.state.imageEditorActive = false;
         });
 
@@ -90,8 +90,8 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
             }
         }, true);
 
-        // image editor: save-image
-        $scope.$on('save-image', function(e, file) {
+        // image editor: image-editor:save-image
+        $scope.$on('image-editor:save-image', function(e, file) {
 
             // upload as base64
             File.uploadBase64Image(file).then(function(data) {
@@ -106,10 +106,10 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
                 // convert to object
                 var itemFiles = {
                     'name': 'item-files',
-                    'list': {}
+                    'list': []
                 };
 
-                itemFiles.list[file.id] = file;
+                itemFiles.list.push(file);
 
                 $rootScope.safeApply(function() {
                     // set as active
@@ -120,7 +120,7 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
                 $scope.$broadcast('masonry-grid:add-items', itemFiles);
             });
 
-            $rootScope.$broadcast('hide-image-editor', {});
+            $rootScope.$broadcast('image-editor:hide-image-editor', {});
         });
 
         // masonry-grid:item-toggled
@@ -188,7 +188,7 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
         // convert to object
         var masonryItems = {
             'name': 'item-files',
-            'list': {}
+            'list': []
         };
 
         // iterate grid items
@@ -197,7 +197,7 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
             // add grid item url to item
             item.active = true;
 
-            masonryItems.list[item.id] = item;
+            masonryItems.list.push(item);
         });
 
         $scope.$broadcast('masonry-grid:replace-items', masonryItems);
@@ -250,17 +250,11 @@ var ItemDetailController = function($rootScope, $scope, $http, $routeParams, $lo
     /* showImagePanel -
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     function showImagePanel() {
-        $rootScope.$broadcast('show-image-editor', {});
+        $rootScope.$broadcast('image-editor:show-image-editor', {});
     }
 
     /* Scope Methods
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     $scope.saveItem = saveItem;
     $scope.showImagePanel = showImagePanel;
-};
-
-
-var App = angular.module('overmind');
-App.controller('ItemDetailController', ItemDetailController);
-
-ItemDetailController.$inject = ['$rootScope', '$scope', '$http', '$routeParams', '$location', '$q', 'User', 'Item', 'File', 'Tag'];
+});

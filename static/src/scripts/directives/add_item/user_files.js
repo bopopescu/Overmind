@@ -3,13 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * User Files Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('userFiles', ['$rootScope', 'User', 'File', function($rootScope, User, File) {
-
-    // constants
+App.directive('userFiles', function($rootScope, $location, User, File) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/user_files.html',
+        templateUrl: '/static/partials/directives/user_files.html',
         replace: false,
         scope: {
             activeFiles: '='
@@ -85,7 +84,7 @@ App.directive('userFiles', ['$rootScope', 'User', 'File', function($rootScope, U
                     // convert to object
                     var userFiles = {
                         'name': 'user-files',
-                        'list': {}
+                        'list': []
                     };
 
                     xhr.data.user_files.user_files_list.each(function(item) {
@@ -93,7 +92,7 @@ App.directive('userFiles', ['$rootScope', 'User', 'File', function($rootScope, U
                         if (Object.has($scope.activeFiles, item.id) && $scope.activeFiles[item.id] === true) {
                             item.active = true;
                         }
-                        userFiles.list[item.id] = item;
+                        userFiles.list.push(item);
                     });
 
                     $scope.$broadcast('masonry-grid:replace-items', userFiles);
@@ -132,4 +131,4 @@ App.directive('userFiles', ['$rootScope', 'User', 'File', function($rootScope, U
             $scope.previousPage = previousPage;
         }
     };
-}]);
+});

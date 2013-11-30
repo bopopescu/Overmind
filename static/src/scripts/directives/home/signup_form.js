@@ -3,13 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Signup Form Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('signupForm', ['$rootScope', 'User', function($rootScope, User) {
-
-    // constants
+App.directive('signupForm', function($rootScope, User) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/signup_form.html',
+        templateUrl: '/static/partials/directives/signup_form.html',
         replace: false,
         scope: {
             'property': '='
@@ -52,11 +51,10 @@ App.directive('signupForm', ['$rootScope', 'User', function($rootScope, User) {
                 });
             }
 
-
             /* Scope Methods
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             $scope.createUser = createUser;
 
         }
     };
-}]);
+});

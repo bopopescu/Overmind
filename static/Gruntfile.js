@@ -8,7 +8,35 @@ module.exports = function(grunt) {
         * clean - removes compiled and temp directories
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
         clean: {
-            dev: ['dist', 'temp']
+            dev: {
+                src: ['dist', 'temp']
+            },
+
+            // fixes bug with ngmin
+            ng_min: {
+                src: ['dist/dist']
+            }
+        },
+
+        /**~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        * copy - copy partials to /dist
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+        copy: {
+            partials: {
+                files: [
+                    {expand: true, cwd: 'src/', src: ['partials/**'], dest: 'dist/'},
+                    {expand: true, cwd: 'src/', src: ['images/**'], dest: 'dist/'},
+                    {expand: true, cwd: 'src/', src: ['fonts/**'], dest: 'dist/'},
+                    {expand: true, cwd: 'src/', src: ['meta/**'], dest: 'dist/'}
+                ]
+            },
+
+            // fixes bug with ngmin
+            ng_min: {
+                files: [
+                    {src: ['dist/dist/scripts/overmind_app.js'], dest: 'dist/scripts/overmind_app.js'},
+                ]
+            }
         },
 
         /**~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +165,9 @@ module.exports = function(grunt) {
                     },
 
                     // ignores
-                    '-W069': true
+                    '-W069': true,
+
+                    ignores: ['**/utility_service.js']
                 },
                 src: [
                     'src/scripts/**/*.js'
@@ -174,15 +204,24 @@ module.exports = function(grunt) {
                     // utilities
                     'src/lib/sugar.min.js',                             // javascript utilities
 
-                    // jquery plugins
-                    'src/lib/jquery.mousewheel.js',                     // mousewheel support
+                    // image
                     'src/lib/canvas-to-blob.js',                        // canvas.toBlob polyfill
+
+                    // masonry
                     'src/lib/jquery.isotope.js',                        // isotope - dynamic layout
 
+                    // events
+                    'src/lib/jquery.mousewheel.js',                     // mousewheel support
+
+                    // mobile / touch
+                    'src/lib/google.fastbutton.js',
+
+                    // inputs
                     'src/lib/redactor.js',                              // redactor - html editor (textarea replacement)
 
                     'src/lib/perfect-scrollbar.js',                     // custom scrollbar
 
+                    // dates
                     'src/lib/jquery.timeago.js',                        // relative and live time stamps
                     'src/lib/moment.min.js',                            // date library
 
@@ -232,6 +271,17 @@ module.exports = function(grunt) {
                 options: {
                     // see below for options. this is optional.
                 }
+            }
+        },
+
+        /**~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        * ngmin - pre-minify angular source - adds minifification safe dependancy injection
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+        ngmin: {
+            directives: {
+                expand: true,
+                src: 'dist/scripts/overmind_app.js',
+                dest: 'dist/'
             }
         },
 
@@ -299,7 +349,7 @@ module.exports = function(grunt) {
             },
             overmind_app: {
                 files: ['src/scripts/**/*.js', 'apps/**/scripts/**/*.js'],
-                tasks: ['clean', 'concat:overmind_app', 'ftp-deploy:js'],
+                tasks: ['concat:overmind_app', 'ftp-deploy:js'],
                 options: {
                   nospawn: false,
                   interrupt: true,
@@ -319,6 +369,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-sass');
@@ -330,9 +381,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Default Development task
-    grunt.registerTask('default', ['clean', 'concat', 'sass:dev', 'ftp-deploy']);
+    grunt.registerTask('default', ['clean', 'jshint', 'copy:partials', 'concat', 'ngmin', 'copy:ng_min', 'clean:ng_min', 'sass:dev', 'ftp-deploy']);
 
-    // Production Task - copy partials, concat js, remove logging statements, minify scripts, compile scss
-    grunt.registerTask('production', ['clean', 'jshint', 'concat', 'removelogging', 'uglify', 'sass:prod', 'ftp-deploy']);
+    // Production Task
+    grunt.registerTask('production', ['clean', 'jshint', 'copy:partials', 'concat', 'ngmin', 'copy:ng_min', 'clean:ng_min', 'removelogging', 'uglify', 'sass:prod', 'ftp-deploy']);
 
 };

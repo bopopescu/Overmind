@@ -3,7 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Paste Capture Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('pasteCapture', ['$rootScope', function($rootScope) {
+App.directive('pasteCapture', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
@@ -32,13 +33,13 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
                 if (!window.Clipboard) {
 
                     // Firefox allows images to be pasted into contenteditable elements
-                    $element.attr("contenteditable", "");
+                    $element.attr('contenteditable', '');
 
                     $element.css({'opacity': 0});
 
                     // as long as we make sure it is always in focus
                     $element.focus();
-                    document.addEventListener("click", function() {
+                    document.addEventListener('click', function() {
 
                         if ($scope.active) {
                             $element.focus();
@@ -47,7 +48,7 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
                 }
 
                 // Add the paste event listener
-                window.addEventListener("paste", pasteHandler);
+                window.addEventListener('paste', pasteHandler);
             }
 
 
@@ -65,7 +66,7 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
                         // Loop through all items, looking for any kind of image
                         for (var i = 0; i < items.length; i++) {
 
-                        if (items[i].type.indexOf("image") !== -1) {
+                        if (items[i].type.indexOf('image') !== -1) {
 
                             // We need to represent the image as a file,
                             var blob = items[i].getAsFile();
@@ -98,12 +99,12 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
 
                 // Clear the inner html to make sure we're always
                 // getting the latest inserted content
-                $element[0].innerHTML = "";
+                $element[0].innerHTML = '';
 
                 if (child) {
                     // If the user pastes an image, the src attribute
                     // will represent the image as a base64 encoded string.
-                    if (child.tagName === "IMG") {
+                    if (child.tagName === 'IMG') {
                         createImage(child.src);
                     }
                 }
@@ -116,7 +117,7 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
                     'source': source
                 };
 
-                $rootScope.$broadcast('image-pasted', pasteProperties);
+                $rootScope.$broadcast('image-editor:image-pasted', pasteProperties);
             }
 
 
@@ -128,4 +129,4 @@ App.directive('pasteCapture', ['$rootScope', function($rootScope) {
             }
         }
     };
-}]);
+});

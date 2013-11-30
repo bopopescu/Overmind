@@ -3,19 +3,24 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Progress Bar Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('progressBar', ['$rootScope', function($rootScope) {
+App.directive('progressBar', function($rootScope, $timeout) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/ui/progress_bar.html',
+        templateUrl: '/static/partials/directives/ui/progress_bar.html',
         replace: true,
         scope: {
             'active': '=',
             'mode': '@',
-            'size': '@'
         },
 
         link: function($scope, $element, $attrs) {
+
+            // scope
+            $scope.state = {
+                show: true
+            };
 
             createEventListeners();
 
@@ -29,6 +34,19 @@ App.directive('progressBar', ['$rootScope', function($rootScope) {
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             function createEventListeners() {
 
+                $scope.$watch('active', function(active, oldValue) {
+
+                    if (!active) {
+                        $timeout(function() {
+                            $scope.state.show = false;
+                        }, 500);
+
+                        $timeout(function() {
+                            $scope.state.show = true;
+                        }, 1000);
+                    }
+                });
+
             }
 
             /* Scope Methods
@@ -36,4 +54,4 @@ App.directive('progressBar', ['$rootScope', function($rootScope) {
         }
     };
 
-}]);
+});

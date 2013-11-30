@@ -1,17 +1,19 @@
 var App = angular.module('overmind');
 
 // Routes
-App.config(['$routeProvider', function($routeProvider) {
+App.config(function($routeProvider) {
+    'use strict';
+
     $routeProvider.
 
         // home view (logged out)
-        when('/', {templateUrl: '/static/src/partials/views/home_view.html', controller: HomeController}).
+        when('/', {templateUrl: '/static/partials/views/home_view.html', controller: 'HomeController'}).
 
         // home view (logged in)
-        when('/add', {templateUrl: '/static/src/partials/views/add_item_view.html', controller: AddItemController}).
+        when('/add', {templateUrl: '/static/partials/views/add_item_view.html', controller: 'AddItemController'}).
 
         // item detail
-        when('/item/:itemID', {templateUrl: '/static/src/partials/views/item_detail_view.html', controller: ItemDetailController}).
+        when('/item/:itemID', {templateUrl: '/static/partials/views/item_detail_view.html', controller: 'ItemDetailController'}).
 
-        when('/:username', {templateUrl: '/static/src/partials/views/user_home_view.html', controller: UserHomeController});
-}]);
+        when('/:username', {templateUrl: '/static/partials/views/user_home_view.html', controller: 'UserHomeController'});
+});

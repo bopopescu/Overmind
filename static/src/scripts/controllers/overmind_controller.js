@@ -1,12 +1,12 @@
+var App = angular.module('overmind');
+
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Overmind Controller - main site controller
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var OvermindController = function($rootScope, $scope, $http, $routeParams, $location, User) {
+App.controller('OvermindController', function($rootScope, $scope, $http, $routeParams, $location, User) {
+    'use strict';
 
-    // constants
-
-    // scope data
-    // status of app - visibility classes
+    // scope
     $scope.state = {
         'showImagePanel': false,
         'homePage': false
@@ -20,9 +20,8 @@ var OvermindController = function($rootScope, $scope, $http, $routeParams, $loca
     function initialize() {
 
         // check user logged in
-        if (User.isUserLoggedIn()) {
+        if (!User.isUserLoggedIn()) {
 
-        } else {
             // return to home page
             $location.url('/');
         }
@@ -34,11 +33,11 @@ var OvermindController = function($rootScope, $scope, $http, $routeParams, $loca
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     function createEventHandlers() {
 
-        $scope.$on('image-editor-enabled', function(e, data) {
+        $scope.$on('image-editor:enabled', function(e, data) {
             $scope.state.showImagePanel = true;
         });
 
-        $scope.$on('image-editor-disabled', function(e, data) {
+        $scope.$on('image-editor:disabled', function(e, data) {
             $scope.state.showImagePanel = false;
         });
 
@@ -51,10 +50,4 @@ var OvermindController = function($rootScope, $scope, $http, $routeParams, $loca
             }
         });
     }
-};
-
-
-var App = angular.module('overmind');
-App.controller('OvermindController', OvermindController);
-
-OvermindController.$inject = ['$rootScope', '$scope', '$http', '$routeParams', '$location', 'User'];
+});

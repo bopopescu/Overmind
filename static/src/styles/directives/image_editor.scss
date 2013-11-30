@@ -10,37 +10,30 @@
     &.inactive {
         padding: 0px;
         height: 0 !important;
+
+        .image-editor-container {
+            max-height: 0 !important;
+        }
     }
 
     /* inline mode */
     &.inline {
-        @include transition(height .4s);
-        background-color: rgba(255, 255, 255, 0.5);
         position: relative;
-        width: 100%;
-        padding: 10px;
+        height: auto;
         overflow: hidden;
-        max-height: 640px;
 
         .image-editor-container {
+            @include transition(all .4s);
             position: relative;
             width: 100%;
+            max-height: 0px;
             overflow: hidden;
         }
 
         .image-editor {
-            max-height: 550px;
             position: relative;
+            max-height: 1300px;
             overflow: auto;
-        }
-
-        .editor-buttons {
-            margin: 0 auto;
-            width: 200px;
-
-            li {
-                margin-right: 10px;
-            }
         }
     }
 
@@ -70,17 +63,12 @@
             left: 0px;
             right: 0px;
         }
+    }
 
-        .editor-buttons {
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            margin-left: -100px;
-
-            li {
-                margin-right: 10px;
-            }
-        }
+    /* editor buttons */
+    .editor-buttons {
+        margin-top: 10px;
+        margin-bottom: 0px;
     }
 
     /* image editor */
@@ -123,25 +111,104 @@
             &:hover {
                 cursor: move;
             }
+
+            &.show-guides {
+                .guide {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    /* resize handles */
+    .guide {
+        display: none;
+        background-color: #fff;
+        position: absolute;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+    }
+
+    /* west handle */
+    .west-handle {
+        height: 100%;
+        width: 15px;
+        position: absolute;
+        left: -7px;
+        cursor: ew-resize;
+
+        .guide {
+            width: 5px;
+            height: 20px;
+            top: 50%;
+            left: 7px;
+            margin-top: -10px;
+        }
+    }
+
+    /* east handle */
+    .east-handle {
+        height: 100%;
+        width: 15px;
+        position: absolute;
+        right: -7px;
+        cursor: ew-resize;
+
+        &.at-right {
+            right: 0px;
+
+            .guide {
+                left: 10px;
+            }
         }
 
-        /* right handle */
-        .right-handle {
-            height: 100%;
-            width: 15px;
-            position: absolute;
-            right: -15px;
-            cursor: ew-resize;
+        .guide {
+            width: 5px;
+            height: 20px;
+            top: 50%;
+            left: 4px;
+            margin-top: -10px;
+        }
+    }
 
-            .nub {
-                width: 5px;
-                height: 20px;
-                background-color: #000;
-                position: absolute;
-                top: 50%;
-                left: -6px;
-                margin-top: -10px;
+    /* south handle */
+    .south-handle {
+        width: 100%;
+        height: 15px;
+        position: absolute;
+        bottom: -7px;
+        cursor: ns-resize;
+
+        &.at-bottom {
+            bottom: 0px;
+
+            .guide {
+                top: 10px;
             }
+        }
+
+        .guide {
+            height: 5px;
+            width: 20px;
+            left: 50%;
+            top: 4px;
+            margin-left: -10px;
+        }
+    }
+
+    /* north handle */
+    .north-handle {
+        width: 100%;
+        height: 15px;
+        position: absolute;
+        top: -7px;
+        cursor: ns-resize;
+
+        .guide {
+            height: 5px;
+            width: 20px;
+            left: 50%;
+            top: 7px;
+            margin-left: -10px;
         }
     }
 }

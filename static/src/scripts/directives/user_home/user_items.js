@@ -3,7 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * User Items Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('userItems', ['$rootScope', '$location', 'User', 'Item', 'Tag', function($rootScope, $location, User, Item, Tag) {
+App.directive('userItems', function($rootScope, $location, User, Item, Tag) {
+    'use strict';
 
     // constants
     var ALL_TAG_NAME = '! All Tags',
@@ -11,7 +12,7 @@ App.directive('userItems', ['$rootScope', '$location', 'User', 'Item', 'Tag', fu
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/user_items.html',
+        templateUrl: '/static/partials/directives/user_items.html',
         replace: true,
         scope: {
         },
@@ -99,6 +100,9 @@ App.directive('userItems', ['$rootScope', '$location', 'User', 'Item', 'Tag', fu
 
                 Item.getUserItems(cursor, tag, ITEMS_PER_PAGE).then(function(xhr) {
 
+                    console.log(replace);
+                    console.log('get user items', xhr);
+
                     $scope.state.loading = false;
 
                     // set cursor
@@ -108,18 +112,22 @@ App.directive('userItems', ['$rootScope', '$location', 'User', 'Item', 'Tag', fu
                     // convert to object
                     var userItems = {
                         'name': 'userItems',
-                        'list': {}
+                        'list': []
                     };
+
                     xhr.data.user_items.user_items_list.each(function(item) {
+
+                        console.log(item);
 
                         // add grid item url to item
                         item.url = item.item_files[0].url;
 
                         // add to userItems
-                        userItems.list[item.id] = item;
+                        userItems.list.push(item);
                     });
 
                     if (replace) {
+                        console.log('replace', userItems);
                         $scope.$broadcast('masonry-grid:replace-items', userItems);
                     } else {
                         $scope.$broadcast('masonry-grid:add-items', userItems);
@@ -150,4 +158,4 @@ App.directive('userItems', ['$rootScope', '$location', 'User', 'Item', 'Tag', fu
             $scope.nextPage = nextPage;
         }
     };
-}]);
+});

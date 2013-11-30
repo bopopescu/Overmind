@@ -3,11 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Vertical Tags Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('verticalTags', ['$rootScope', function($rootScope) {
+App.directive('verticalTags', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/input/vertical_tags.html',
+        templateUrl: '/static/partials/directives/input/vertical_tags.html',
         replace: true,
         scope: {
             'tags': '=',
@@ -134,4 +135,4 @@ App.directive('verticalTags', ['$rootScope', function($rootScope) {
         }
     };
 
-}]);
+});

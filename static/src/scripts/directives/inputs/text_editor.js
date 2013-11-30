@@ -3,7 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Text Editor Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('textEditor', ['$rootScope', function($rootScope) {
+App.directive('textEditor', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
@@ -125,4 +126,4 @@ App.directive('textEditor', ['$rootScope', function($rootScope) {
             }
         }
     };
-}]);
+});

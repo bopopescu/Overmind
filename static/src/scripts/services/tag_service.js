@@ -3,8 +3,8 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Tag Service -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.factory('Tag', ['$http', 'User', function($http, User) {
-
+App.factory('Tag', function($http, User) {
+    'use strict';
 
     /* getUserTags -
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -37,4 +37,4 @@ App.factory('Tag', ['$http', 'User', function($http, User) {
 
     return publicMethods;
 
-}]);
+});

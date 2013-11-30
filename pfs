@@ -1,0 +1,95 @@
+[33mcommit 526a7963857fadb14ff51aa8a173abb57f27329c[m
+Author: codecollision <michael@codecollision.com>
+Date:   Fri Nov 29 16:25:55 2013 -0700
+
+    merged frontend and backend repos - conver to use appengine static file hosting
+
+[33mcommit 3ee51f90b7552fb52264dd3d633268b80043f2b0[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sun Jun 30 21:38:19 2013 -0700
+
+    delicious-zombie
+
+[33mcommit b5c60d7fe8f5edf9ecfbb1e9ce11b40f04e549df[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sun Jun 30 16:20:48 2013 -0700
+
+    file/item
+
+[33mcommit 53baf3a63625195d5061f2d07e82d678b60fde55[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sat Jun 22 21:30:52 2013 -0700
+
+    tag views
+
+[33mcommit ba0e0db5bbaed8e8499a9c4eddf6ff0836422720[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sat Jun 22 21:29:51 2013 -0700
+
+    file service, item service tag service updates
+
+[33mcommit b2d358c120b438789064d288cee4a8086a890d39[m
+Author: codecollision <michael@codecollision.com>
+Date:   Mon May 27 00:29:42 2013 -0700
+
+    ...cut the chatter red 2
+
+[33mcommit 95e05be0defd838f5bef7a4bf780c6004cf28c09[m
+Author: codecollision <michael@codecollision.com>
+Date:   Tue May 7 01:50:00 2013 -0700
+
+    added get user items method to item service, updated models
+
+[33mcommit 6abb28530d28fc8912f2e51b583ccc35f350a2d4[m
+Author: codecollision <michael@codecollision.com>
+Date:   Tue May 7 00:28:49 2013 -0700
+
+    add createItem service method
+
+[33mcommit bdd9a3b88599a89b8cd9a59a0385ec07ae485dc8[m
+Author: codecollision <michael@codecollision.com>
+Date:   Mon May 6 23:11:36 2013 -0700
+
+    item service/view update
+
+[33mcommit 56449672e100633a9700bafcf059a9169540c091[m
+Author: codecollision <michael@codecollision.com>
+Date:   Mon May 6 22:36:06 2013 -0700
+
+    added item view and tag service, item service
+
+[33mcommit 22da9cd6e4d29ebfbcc019d5a33d25c0043d69bd[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sun May 5 21:01:43 2013 -0700
+
+    added views for several apps
+
+[33mcommit b35ed7cd89879a3a8032804e6f6c71d08c694e51[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sun May 5 16:58:03 2013 -0700
+
+    added file service methods
+
+[33mcommit 243763786aab044e7b2fa71cb8a38b18ff0576d2[m
+Author: codecollision <michael@codecollision.com>
+Date:   Sun May 5 14:13:32 2013 -0700
+
+    added base64 upload
+
+[33mcommit ae8774d8c978ac828e674efca0db1ecbb30554b2[m
+Author: Michael Martin <michael@codecollision.com>
+Date:   Sat May 4 18:21:16 2013 -0700
+
+    updated models, added user methods
+
+[33mcommit d0731d2bf67cd3afc74bd7b348aad89579e429c6[m
+Author: Michael Martin <michael@codecollision.com>
+Date:   Mon Apr 22 08:16:58 2013 -0700
+
+    initial commit
+
+[33mcommit 5d4a3428eede085c50d4b1ae116b68bfb59e8aac[m
+Author: Michael Martin <michael@codecollision.com>
+Date:   Mon Apr 22 08:10:42 2013 -0700
+
+    Initial commit

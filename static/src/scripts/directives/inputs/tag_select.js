@@ -3,11 +3,12 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Tag Select Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('tagSelect', ['$rootScope', function($rootScope) {
+App.directive('tagSelect', function($rootScope) {
+    'use strict';
 
     return {
         restrict: 'A',
-        templateUrl: '/static/src/partials/directives/input/tag_select.html',
+        templateUrl: '/static/partials/directives/input/tag_select.html',
         replace: true,
         scope: {
             'tags': '=',
@@ -268,4 +269,4 @@ App.directive('tagSelect', ['$rootScope', function($rootScope) {
         }
     };
 
-}]);
+});
