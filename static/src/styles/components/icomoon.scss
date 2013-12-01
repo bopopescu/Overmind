@@ -2,63 +2,42 @@
     font-family: 'icomoon';
     src:url('/static/fonts/icomoon/icomoon.eot');
     src:url('/static/fonts/icomoon/icomoon.eot?#iefix') format('embedded-opentype'),
+        url('/static/fonts/icomoon/icomoon.svg#icomoon') format('svg'),
         url('/static/fonts/icomoon/icomoon.woff') format('woff'),
-        url('/static/fonts/icomoon/icomoon.ttf') format('truetype'),
-        url('/static/fonts/icomoon/icomoon.svg#icomoon') format('svg');
+        url('/static/fonts/icomoon/icomoon.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
-.only-icon {
-
+[class*="icon-"] {
     &:before {
-        font-family: 'icomoon' !important;
+        font-family: 'icomoon';
         speak: none;
         font-style: normal;
         font-weight: normal;
         font-variant: normal;
         text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-
-        position: relative;
-        left: 0px;
-    }
-}
-
-.left-icon {
-
-    &:before {
-        font-family: 'icomoon' !important;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
 
         position: relative;
         left: -5px;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 }
 
-.right-icon {
-    padding-right: 2.3em !important;
+.only-icon:before {
+    position: relative;
+    left: 0px;
+}
+.right-icon:before {
+    line-height: 1em;
+    position: relative;
+    top: 0px;
 
-    &:before {
-        font-family: 'icomoon' !important;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-
-        position: absolute;
-        right: 10px;
-    }
+    position: relative;
+    left: 5px;
 }
 
 .icon-erase:before {

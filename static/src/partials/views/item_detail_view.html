@@ -39,20 +39,10 @@
 
     <div class="columns large-12 end">
 
-        <!-- directive: item form -->
-        <div item-form="itemForm" edit-item="itemDetail.itemID"></div>
-
-        <!-- directive: progress bar -->
-        <div progress-bar active="state.saving" mode="saving" size="24"></div>
-
-        <div class="row">
-            <div class="columns large-24">
-                <ul class="add-item-buttons button-group seperate">
-                  <li><button class="secondary icon-screenshot left-icon" ng-click="showImagePanel()"> Insert Screenshot</button></li>
-                  <li><button class="alert icon-ok left-icon" ng-click="saveItem()" ng-disabled="state.saving"> Save</button></li>
-                </ul>
-            </div>
-        </div>
+        <ul class="add-item-buttons button-group radius">
+          <li><button class="success icon-screenshot" ng-click="showImagePanel()">Insert Screenshot</button></li>
+          <li><button class="alert icon-ok" ng-click="saveItem()" ng-disabled="state.saving">Save</button></li>
+        </ul>
 
     </div>
 </div>
@@ -61,4 +51,4 @@
 <div paste-capture active="state.imageEditorActive"></div>
 
 <!-- directive: image-editor -->
-<div image-editor image-source="imageEditor.uploadedImage" mode="inline" save-mode="base64"></div>
+<div image-editor image-source="imageEditor.uploadedImage" mode="fullscreen" save-mode="base64" min-width="0" min-height="0" aspect-x="0" aspect-y="0"></div>

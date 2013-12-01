@@ -2,12 +2,46 @@
    BUTTONS
 ----------------------------------------- */
 button, .button {
-    text-transform: uppercase;
+    outline: none;
+    outline-color: transparent;
 }
 
 /* -----------------------------------------
-   BUTTON GROUP
+   BUTTON-BAR
 ----------------------------------------- */
-.button-group {
+.button-bar {
 
+    .button-group {
+
+        div {
+            overflow: visible;
+        }
+
+        &.left-bar {
+            float: left;
+        }
+        &.right-bar {
+            float: right;
+        }
+
+        li:last-child {
+            button, .button {
+                margin-right: 0px;
+            }
+        }
+
+        /* spaced style */
+        &.spaced-bar {
+
+            &.right-bar {
+                .button {
+                    margin-left: 4px;
+                    margin-right: 0;
+                }
+            }
+            button, .button {
+                margin-right: 4px;
+            }
+        }
+    }
 }

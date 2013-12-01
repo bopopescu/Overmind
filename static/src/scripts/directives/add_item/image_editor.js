@@ -46,7 +46,9 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
                 NW_RESIZE = 'nw-resize';
 
             // properties
-            var mouseMoveAction = null;
+            var frameID = null,
+                animationFrame = new AnimationFrame(60),
+                mouseMoveAction = null;
 
             // jquery elements
             var $image = $element.find('.image');
@@ -149,22 +151,22 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
                     showImageEditor();
                 });
 
-                // event: save-image
+                // render cropped image
                 $scope.$on('image-editor:save-edited-image', function(e) {
                     saveImage();
                 });
 
-                // event: hide-image-editor
+                // close image editor
                 $scope.$on('image-editor:hide-image-editor', function(e) {
                     hideImageEditor();
                 });
 
-                // event: image-pasted
+                // load pasted image
                 $scope.$on('image-editor:image-pasted', function(e, pasteProperties) {
                     renderImage(pasteProperties.source);
                 });
 
-                // event: edit-image
+                // edit uploaded iamge
                 $scope.$on('image-editor:edit-image', function(e, imageSource) {
                     renderImage(imageSource);
                 });
@@ -255,7 +257,6 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
 
                 // extend defaults
                 Utilities.extendSettings($scope.imageEditor, $scope);
-                console.log($scope.imageEditor);
 
                 // update aspect ratio
                 calculateAspectRatio();
@@ -516,8 +517,8 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
 
                 // absolute dimension limits, use either image boundary or mouse boundary individually
                 var maxDimensions = {
-                    'width': (mouseX && imageBoundary.width > mouseX) ? mouseX : imageBoundary.width,
-                    'height': (mouseY && imageBoundary.height > mouseY) ? mouseY : imageBoundary.height
+                    'width': (imageBoundary.width > mouseX) ? mouseX : imageBoundary.width,
+                    'height': (imageBoundary.height > mouseY) ? mouseY : imageBoundary.height
                 };
 
                 var dimensions = {

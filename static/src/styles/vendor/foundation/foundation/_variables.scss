@@ -30,8 +30,8 @@ $default-float: left;
 
 $body-bg: hsl(220, 4%, 75%);
 $body-font-color: #77777e;
-$body-font-family: "museo-sans", sans-serif;
-$body-font-weight: normal;
+$body-font-family: $paragraph-font;
+$body-font-weight: $paragraph-normal-weight;
 $body-font-style: normal;
 
 // Font-smoothing
@@ -136,8 +136,8 @@ $total-columns: 24;
 
 // Heading font styles
 
-$header-font-family: "museo-sans", sans-serif;
-$header-font-weight: $bold-weight;
+$header-font-family: $header-font;
+$header-font-weight: $header-bold-weight;
 $header-font-style: normal;
 $header-font-color: $primary-color;
 $header-line-height: 1.4;
@@ -169,8 +169,8 @@ $subheader-bottom-margin: .5em;
 
 // Paragraphs
 
-$paragraph-font-family: "proxima-nova-soft", sans-serif;
-$paragraph-font-weight: normal;
+$paragraph-font-family: $paragraph-font;
+$paragraph-font-weight: $paragraph-normal-weight;
 $paragraph-font-size: 1em;
 $paragraph-line-height: 1.6;
 $paragraph-margin-bottom: emCalc(20px);
@@ -260,10 +260,10 @@ $definition-list-margin-bottom: emCalc(12px);
 
 $form-label-pointer: pointer;
 $form-label-font-size: emCalc(20px);
-$form-label-font-weight: $bold-weight;
+$form-label-font-weight: $header-bold-weight;
 $form-label-font-color: $secondary-color;
 $form-label-bottom-margin: emCalc(8px);
-$input-font-family: "museo-sans", sans-serif;
+$input-font-family: $paragraph-font;
 $input-font-color: $primary-color;
 $input-font-size: 1em;
 // $input-bg-color: #fff;
@@ -287,7 +287,7 @@ $fieldset-margin: emCalc(18px) 0;
 // Legends
 
 $legend-bg: transparent;
-$legend-font-weight: $bold-weight;
+$legend-font-weight: $paragraph-normal-weight
 $legend-padding: 0 emCalc(3px);
 
 // Prefix and postfix input elements
@@ -332,14 +332,14 @@ $button-lrg: emCalc(16px);
 
 // Button text styles.
 
-$button-font-family: "museo-sans", sans-serif;
+$button-font-family: $header-font;
 $button-font-color: #fff;
 $button-font-color-alt: #333;
 $button-font-med: emCalc(16px);
 $button-font-tny: emCalc(11px);
 $button-font-sml: emCalc(13px);
 $button-font-lrg: emCalc(20px);
-$button-font-weight: bold;
+$button-font-weight: $header-normal-weight;
 $button-font-align: center;
 
 // Various hover effects.

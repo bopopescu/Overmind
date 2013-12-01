@@ -10,7 +10,7 @@ App.config(function($routeProvider) {
         when('/', {templateUrl: '/static/partials/views/home_view.html', controller: 'HomeController'}).
 
         // home view (logged in)
-        when('/add', {templateUrl: '/static/partials/views/add_item_view.html', controller: 'AddItemController'}).
+        when('/add', {templateUrl: '/static/partials/views/item_detail_view.html', controller: 'AddItemController'}).
 
         // item detail
         when('/item/:itemID', {templateUrl: '/static/partials/views/item_detail_view.html', controller: 'ItemDetailController'}).

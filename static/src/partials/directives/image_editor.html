@@ -36,10 +36,12 @@
     <!-- directive: progress bar -->
     <div progress-bar active="imageEditor.progress"></div>
 
-    <ul class="editor-buttons" ng-hide="state.hideControls">
-        <button class="secondary" ng-tap="hideImageEditor()">Use As-Is</button>
-        <button class="success icon-crop" ng-disabled="!state.cropActive" ng-tap="saveImage()"> Crop</button>
-    </ul>
+    <div class="editor-buttons">
+        <ul class="button-group radius" ng-hide="state.hideControls">
+            <li><button class="secondary" ng-tap="hideImageEditor()">Use As-Is</button></li>
+            <li><button class="success icon-crop" ng-disabled="!state.cropActive" ng-tap="saveImage()"> Crop</button></li>
+        </ul>
+    </div>
 
 </div>
 

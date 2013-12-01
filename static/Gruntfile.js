@@ -207,6 +207,9 @@ module.exports = function(grunt) {
                     // image
                     'src/lib/canvas-to-blob.js',                        // canvas.toBlob polyfill
 
+                    // animation
+                    'src/lib/animationframe.js',                        // request animation frame
+
                     // masonry
                     'src/lib/jquery.isotope.js',                        // isotope - dynamic layout
 
@@ -331,7 +334,7 @@ module.exports = function(grunt) {
 
             partials: {
                 files: ['src/partials/**'],
-                tasks: ['ftp-deploy:partials'],
+                tasks: ['copy:partials'],
                 options: {
                   nospawn: false,
                   interrupt: true,
@@ -340,7 +343,7 @@ module.exports = function(grunt) {
             },
             overmind_lib: {
                 files: ['src/lib/**/*.js'],
-                tasks: ['concat:overmind_lib', 'ftp-deploy:js'],
+                tasks: ['concat:overmind_lib'],
                 options: {
                   nospawn: false,
                   interrupt: true,
@@ -348,8 +351,8 @@ module.exports = function(grunt) {
                 }
             },
             overmind_app: {
-                files: ['src/scripts/**/*.js', 'apps/**/scripts/**/*.js'],
-                tasks: ['concat:overmind_app', 'ftp-deploy:js'],
+                files: ['src/scripts/**/*.js'],
+                tasks: ['concat:overmind_app', 'jshint'],
                 options: {
                   nospawn: false,
                   interrupt: true,
@@ -358,7 +361,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ['src/styles/**/*.scss'],
-                tasks: ['sass:dev', 'ftp-deploy:css'],
+                tasks: ['sass:dev'],
                 options: {
                   nospawn: false,
                   interrupt: true,

@@ -10,7 +10,7 @@
                 <input type="text" placeholder="[[ placeholder ]]" ng-switch-default/>
             </div>
 
-            <div class="list-button icon-list left-icon" ng-click="state.showPane2 = true" ng-show="showList"></div>
+            <div class="list-button icon-list" ng-click="state.showPane2 = true" ng-show="showList"></div>
 
             <!-- selected tags -->
             <div class="tag-list selected-tags">
@@ -18,7 +18,7 @@
                     <li class="tag" ng-repeat="(key, value) in selectedTags">
                         {{ key }}
 
-                        <span class="tag-delete icon-erase left-icon" ng-click="removeTag(key)"></span>
+                        <span class="tag-delete icon-erase" ng-click="removeTag(key)"></span>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
         <!-- all tags pane -->
         <div class="pane pane2">
 
-            <div class="back-button button secondary icon-arrow-left left-icon" ng-click="state.showPane2 = false"> Back</div>
+            <div class="back-button button secondary icon-arrow-left" ng-click="state.showPane2 = false"> Back</div>
 
             <div class="tag-list all-tags">
                 <ul>
