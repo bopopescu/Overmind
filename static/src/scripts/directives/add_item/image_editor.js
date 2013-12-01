@@ -3,7 +3,7 @@ var App = angular.module('overmind');
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Image Editor Directive -
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-App.directive('imageEditor', function($rootScope, $http, Utilities) {
+App.directive('imageEditor', function($rootScope, $http, $timeout, Utilities) {
     'use strict';
 
     return {
@@ -48,6 +48,7 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
             // properties
             var frameID = null,
                 animationFrame = new AnimationFrame(60),
+                cropActiveTimeout = null,
                 mouseMoveAction = null;
 
             // jquery elements
@@ -693,12 +694,17 @@ App.directive('imageEditor', function($rootScope, $http, Utilities) {
                     $scope.cropStyle['height'] = crop.height;
                     $scope.cropStyle['background-position'] = -crop.x + 'px ' + -crop.y + 'px';
 
-                    // set crop state
+                    // cancel inactive timeout and set crop active
                     if (crop.width > MIN_WIDTH && crop.height > MIN_HEIGHT) {
+
+                        $timeout.cancel(cropActiveTimeout);
                         $scope.state.cropActive = true;
 
+                    // set to inactive after delay
                     } else {
-                        $scope.state.cropActive = false;
+                        cropActiveTimeout = $timeout(function() {
+                            $scope.state.cropActive = false;
+                        }, 250);
                     }
 
                     if (crop.width > RESIZE_GUIDES_MIN_SIZE && crop.height > RESIZE_GUIDES_MIN_SIZE) {

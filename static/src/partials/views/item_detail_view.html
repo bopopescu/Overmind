@@ -39,6 +39,12 @@
 
     <div class="columns large-12 end">
 
+        <!-- directive: item form -->
+        <div item-form="itemForm" edit-item="itemDetail.itemID"></div>
+
+        <!-- directive: progress bar -->
+        <div progress-bar active="state.saving" mode="saving" size="24"></div>
+
         <ul class="add-item-buttons button-group radius">
           <li><button class="success icon-screenshot" ng-click="showImagePanel()">Insert Screenshot</button></li>
           <li><button class="alert icon-ok" ng-click="saveItem()" ng-disabled="state.saving">Save</button></li>

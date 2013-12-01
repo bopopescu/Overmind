@@ -85,15 +85,16 @@
     .image-editor {
 
         .image {
+            @include transform(translate3d(0px, 0px, 0px));
             width: 100%;
             height: 100%;
-            -webkit-transform: translate3d(0px, 0px, 0px);
             cursor: crosshair;
         }
 
         /* crop overlay */
         .crop-overlay {
             @include transition(opacity 500ms);
+            @include transform(translate3d(0px, 0px, 0px));
             position: absolute;
             width: 100%;
             height: 100%;
@@ -109,6 +110,7 @@
         /* crop selection */
         .crop-selection {
             @include transition(opacity 250ms);
+            @include transform(translate3d(0px, 0px, 0px));
             position: absolute;
             background-image: inherit;
             box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.5);
